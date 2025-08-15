@@ -1,7 +1,7 @@
-import './App.css'
+import type { ReactNode } from "react";
 
-function App() {
+import "./App.css";
+
+export default function App(): ReactNode {
   return <div>Hello, friend!</div>;
 }
-
-export default App
