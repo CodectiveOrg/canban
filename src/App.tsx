@@ -7,8 +7,8 @@ import "./App.css";
 export default function App(): ReactNode {
   return (
     <div className="app">
-      <Counter />
-      <Counter />
+      <Counter title="Counter 1" />
+      <Counter title="Counter 2" />
     </div>
   );
 }
