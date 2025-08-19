@@ -2,17 +2,28 @@ import { type ReactNode, useState } from "react";
 
 import "./App.css";
 
-export default function App(): ReactNode {
-  const [count, setCount] = useState(0);
+type User = {
+  username: string;
+  password: string;
+};
 
-  const increment = (): void => {
-    setCount(count + 1);
+export default function App(): ReactNode {
+  const [user, setUser] = useState<Readonly<User>>({
+    username: "BijanProgrammer",
+    password: "1234",
+  });
+
+  const handleButtonClick = (): void => {
+    setUser({
+      ...user,
+      password: "4321",
+    });
   };
 
   return (
     <div>
-      <div>{count}</div>
-      <button onClick={increment}>Increment</button>
+      <pre>{JSON.stringify(user, null, 2)}</pre>
+      <button onClick={handleButtonClick}>Change Password</button>
     </div>
   );
 }
