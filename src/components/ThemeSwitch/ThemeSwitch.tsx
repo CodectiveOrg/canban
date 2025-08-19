@@ -1,15 +1,15 @@
-import { type Dispatch, type ReactNode, type SetStateAction } from "react";
+import { type ReactNode } from "react";
 
 import type { Theme } from "@/App.tsx";
 
 type Props = {
   theme: Theme;
-  setTheme: Dispatch<SetStateAction<Theme>>;
+  onToggle: () => void;
 };
 
-export default function ThemeSwitch({ theme, setTheme }: Props): ReactNode {
+export default function ThemeSwitch({ theme, onToggle }: Props): ReactNode {
   const handleButtonClick = (): void => {
-    setTheme((old) => (old === "light" ? "dark" : "light"));
+    onToggle();
   };
 
   return (
