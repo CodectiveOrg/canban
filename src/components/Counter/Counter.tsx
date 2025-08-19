@@ -1,13 +1,13 @@
-import { type ReactNode, useState } from "react";
+import { type PropsWithChildren, type ReactNode, useState } from "react";
 
 import type { Theme } from "@/App.tsx";
 
-type Props = {
+type Props = PropsWithChildren<{
   theme: Theme;
   title: string;
-};
+}>;
 
-export default function Counter({ theme, title }: Props): ReactNode {
+export default function Counter({ theme, title, children }: Props): ReactNode {
   const [count, setCount] = useState<number>(0);
 
   const handleButtonClick = (): void => {
@@ -21,6 +21,7 @@ export default function Counter({ theme, title }: Props): ReactNode {
       <button className="increment" onClick={handleButtonClick}>
         Increment
       </button>
+      <div className="children">{children}</div>
     </div>
   );
 }

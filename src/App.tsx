@@ -17,8 +17,12 @@ export default function App(): ReactNode {
   return (
     <div className="app">
       <ThemeSwitch theme={theme} onToggle={handleToggle} />
-      <Counter theme={theme} title="Counter 1" />
-      <Counter theme={theme} title="Counter 2" />
+      <Counter theme={theme} title="Counter 1">
+        <ThemeSwitch theme={theme} onToggle={handleToggle} />
+      </Counter>
+      <Counter theme={theme} title="Counter 2">
+        <p>This is counter 2</p>
+      </Counter>
     </div>
   );
 }
