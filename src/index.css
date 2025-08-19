@@ -34,4 +34,8 @@
     background-color: Canvas;
     color: CanvasText;
   }
+
+  &.primary {
+    border: 2px solid hsl(200, 100%, 50%);
+  }
 }

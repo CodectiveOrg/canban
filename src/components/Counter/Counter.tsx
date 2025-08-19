@@ -5,9 +5,15 @@ import type { Theme } from "@/App.tsx";
 type Props = PropsWithChildren<{
   theme: Theme;
   title: string;
+  primary?: boolean;
 }>;
 
-export default function Counter({ theme, title, children }: Props): ReactNode {
+export default function Counter({
+  theme,
+  title,
+  primary = false,
+  children,
+}: Props): ReactNode {
   const [count, setCount] = useState<number>(0);
 
   const handleButtonClick = (): void => {
@@ -15,7 +21,7 @@ export default function Counter({ theme, title, children }: Props): ReactNode {
   };
 
   return (
-    <div className={`counter ${theme}`}>
+    <div className={`counter ${theme} ${primary ? "primary" : ""}`}>
       <div className="title">{title}</div>
       <div className="count">{count}</div>
       <button className="increment" onClick={handleButtonClick}>
