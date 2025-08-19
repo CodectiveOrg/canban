@@ -2,28 +2,23 @@ import { type ReactNode, useState } from "react";
 
 import "./App.css";
 
-type User = {
-  username: string;
-  password: string;
-};
-
 export default function App(): ReactNode {
-  const [user, setUser] = useState<Readonly<User>>({
-    username: "BijanProgrammer",
-    password: "1234",
-  });
+  const [numbers, setNumbers] = useState<number[]>([
+    1, 2, 3, 4, 5, 6, 7, 8, 9, 10,
+  ]);
 
   const handleButtonClick = (): void => {
-    setUser({
-      ...user,
-      password: "4321",
+    setNumbers((old) => {
+      const newNumbers = [...old];
+      newNumbers.splice(3, 1);
+      return newNumbers;
     });
   };
 
   return (
     <div>
-      <pre>{JSON.stringify(user, null, 2)}</pre>
-      <button onClick={handleButtonClick}>Change Password</button>
+      <pre>{JSON.stringify(numbers, null, 2)}</pre>
+      <button onClick={handleButtonClick}>Remove Index 3</button>
     </div>
   );
 }
