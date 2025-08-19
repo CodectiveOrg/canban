@@ -1,10 +1,13 @@
-import { type ReactNode, useState } from "react";
+import { type Dispatch, type ReactNode, type SetStateAction } from "react";
 
-type Theme = "light" | "dark";
+import type { Theme } from "@/App.tsx";
 
-export default function ThemeSwitch(): ReactNode {
-  const [theme, setTheme] = useState<Theme>("light");
+type Props = {
+  theme: Theme;
+  setTheme: Dispatch<SetStateAction<Theme>>;
+};
 
+export default function ThemeSwitch({ theme, setTheme }: Props): ReactNode {
   const handleButtonClick = (): void => {
     setTheme((old) => (old === "light" ? "dark" : "light"));
   };
