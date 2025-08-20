@@ -8,6 +8,8 @@ import "./App.css";
 export type Theme = "light" | "dark";
 
 export default function App(): ReactNode {
+  console.log("App");
+
   const [theme, setTheme] = useState<Theme>("light");
 
   const handleToggle = (): void => {
@@ -17,12 +19,8 @@ export default function App(): ReactNode {
   return (
     <div className="app">
       <ThemeSwitch theme={theme} onToggle={handleToggle} />
-      <Counter primary theme={theme} title="Counter 1">
-        <ThemeSwitch theme={theme} onToggle={handleToggle} />
-      </Counter>
-      <Counter theme={theme} title="Counter 2">
-        <p>This is counter 2</p>
-      </Counter>
+      <Counter primary theme={theme} title="Counter 1" />
+      <Counter theme={theme} title="Counter 2" />
     </div>
   );
 }
