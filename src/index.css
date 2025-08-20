@@ -1,0 +1,41 @@
+.app {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.counter {
+  display: grid;
+  justify-items: center;
+  gap: 1rem;
+
+  inline-size: 10rem;
+
+  padding: 1rem;
+
+  border: 1px solid hsl(0, 0%, 70%);
+  border-radius: 0.5rem;
+
+  .title {
+    font-weight: bold;
+  }
+
+  .count {
+    font-family: monospace;
+  }
+
+  .increment {
+    text-transform: uppercase;
+  }
+
+  &.dark {
+    color-scheme: dark;
+
+    background-color: Canvas;
+    color: CanvasText;
+  }
+
+  &.primary {
+    border: 2px solid hsl(200, 100%, 50%);
+  }
+}
