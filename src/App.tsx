@@ -1,26 +1,100 @@
 import { type ReactNode, useState } from "react";
 
-import Counter from "@/components/Counter/Counter.tsx";
-import ThemeSwitch from "@/components/ThemeSwitch/ThemeSwitch.tsx";
-
 import "./App.css";
 
-export type Theme = "light" | "dark";
+type User = {
+  id: number;
+  username: string;
+  role: "user" | "admin";
+};
 
 export default function App(): ReactNode {
-  console.log("App");
+  const [users, setUsers] = useState<User[]>([
+    {
+      id: 1,
+      username: "BijanProgrammer",
+      role: "admin",
+    },
+    {
+      id: 2,
+      username: "Reza",
+      role: "user",
+    },
+    {
+      id: 3,
+      username: "Ali",
+      role: "admin",
+    },
+  ]);
 
-  const [theme, setTheme] = useState<Theme>("light");
+  const handleAddButtonClick = (): void => {
+    setUsers((old) => {
+      const clone = [...old];
 
-  const handleToggle = (): void => {
-    setTheme((old) => (old === "light" ? "dark" : "light"));
+      clone.splice(1, 0, {
+        id: clone.length + 1,
+        username: "New",
+        role: "user",
+      });
+
+      return clone;
+    });
   };
 
   return (
     <div className="app">
-      <ThemeSwitch theme={theme} onToggle={handleToggle} />
-      <Counter primary theme={theme} title="Counter 1" />
-      <Counter theme={theme} title="Counter 2" />
+      <button onClick={handleAddButtonClick}>Add User</button>
+
+      {users.map((user) => (
+        <Item key={user.id} user={user} />
+      ))}
+
+      {users.length % 2 === 0 ? (
+        <Hello key="even" label="even" />
+      ) : (
+        <Hello key="odd" label="odd" />
+      )}
+
+      {users.length % 2 === 0 && <Hello label="even" />}
+      {users.length % 2 === 1 && <Hello label="odd" />}
     </div>
+  );
+}
+
+type HelloProps = {
+  label: string;
+};
+
+function Hello({ label }: HelloProps): ReactNode {
+  const [name, setName] = useState<string>("");
+
+  return (
+    <div>
+      <label>
+        {label}
+        <input
+          type="text"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+        />
+      </label>
+      <br />
+      <div>Hello, {name}!</div>
+    </div>
+  );
+}
+
+type ItemProps = {
+  user: User;
+};
+
+function Item({ user }: ItemProps): ReactNode {
+  console.log(user.username);
+
+  return (
+    <li>
+      ({user.role}) {user.username}
+      <input type="text" />
+    </li>
   );
 }
