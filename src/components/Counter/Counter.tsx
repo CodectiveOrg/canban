@@ -14,6 +14,8 @@ export default function Counter({
   primary = false,
   children,
 }: Props): ReactNode {
+  console.log(title);
+
   const [count, setCount] = useState<number>(0);
 
   const handleButtonClick = (): void => {

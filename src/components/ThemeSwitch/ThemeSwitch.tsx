@@ -8,6 +8,8 @@ type Props = {
 };
 
 export default function ThemeSwitch({ theme, onToggle }: Props): ReactNode {
+  console.log("ThemeSwitch");
+
   const handleButtonClick = (): void => {
     onToggle();
   };
