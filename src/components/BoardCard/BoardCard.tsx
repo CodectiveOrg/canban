@@ -16,6 +16,7 @@ type Props = {
 };
 
 export default function BoardCard({
+  id,
   title,
   description,
   color,
@@ -26,7 +27,7 @@ export default function BoardCard({
       <div className={styles.content}>
         <div className={styles.header}>
           <div className={styles.title}>{title}</div>
-          <Link to="/board">View</Link>
+          <Link to={`/board/${id}`}>View</Link>
         </div>
         <p className={styles.description}>{description}</p>
       </div>
