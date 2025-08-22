@@ -1,5 +1,7 @@
 import type { ReactNode } from "react";
 
+import { Link } from "react-router";
+
 import clsx from "clsx";
 
 import styles from "./BoardCard.module.css";
@@ -24,7 +26,7 @@ export default function BoardCard({
       <div className={styles.content}>
         <div className={styles.header}>
           <div className={styles.title}>{title}</div>
-          <a href="/board">View</a>
+          <Link to="/board">View</Link>
         </div>
         <p className={styles.description}>{description}</p>
       </div>
