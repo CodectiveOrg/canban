@@ -2,6 +2,10 @@ import { createRoot } from "react-dom/client";
 
 import { BrowserRouter } from "react-router";
 
+import { ErrorBoundary } from "react-error-boundary";
+
+import ErrorPage from "@/pages/ErrorPage/ErrorPage.tsx";
+
 import App from "./App.tsx";
 
 import "./index.css";
@@ -11,7 +15,9 @@ import "./styles/shapes.css";
 import "./styles/typography.css";
 
 createRoot(document.getElementById("root")!).render(
-  <BrowserRouter>
-    <App />
-  </BrowserRouter>,
+  <ErrorBoundary FallbackComponent={ErrorPage}>
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  </ErrorBoundary>,
 );
