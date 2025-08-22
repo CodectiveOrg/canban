@@ -1,0 +1,13 @@
+.header {
+  padding-block: 1rem;
+
+  .logo {
+    color: inherit;
+
+    text-decoration: none;
+
+    img {
+      block-size: 2rem;
+    }
+  }
+}
