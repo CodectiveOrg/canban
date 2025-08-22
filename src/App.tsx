@@ -1,6 +1,7 @@
 import { type ReactNode } from "react";
 
 import BoardCard from "@/components/BoardCard/BoardCard.tsx";
+import Button from "@/components/Button/Button.tsx";
 
 import styles from "./App.module.css";
 
@@ -11,7 +12,7 @@ export default function App(): ReactNode {
       <main>
         <div className={styles.header}>
           <h1>Boards</h1>
-          <button>Create</button>
+          <Button color="primary">Create</Button>
         </div>
         <ul className={styles.boards}>
           <li>
