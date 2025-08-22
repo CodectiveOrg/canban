@@ -1,0 +1,11 @@
+.card {
+  background-color: var(--color-surface-2);
+  box-shadow: var(--shadow-1);
+
+  inline-size: 20rem;
+
+  .title {
+    font-size: var(--fz-600);
+    font-weight: 700;
+  }
+}
