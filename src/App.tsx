@@ -1,6 +1,6 @@
 import { type ReactNode } from "react";
 
-import clsx from "clsx";
+import BoardCard from "@/components/BoardCard/BoardCard.tsx";
 
 import styles from "./App.module.css";
 
@@ -15,51 +15,28 @@ export default function App(): ReactNode {
         </div>
         <ul className={styles.boards}>
           <li>
-            <div className={clsx(styles.board, "blue")}>
-              <div className={styles.cover}></div>
-              <div className={styles.content}>
-                <div className={styles.header}>
-                  <div className={styles.title}>Board 1</div>
-                  <a href="/board">View</a>
-                </div>
-                <p className={styles.description}>
-                  Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                  Dolor, nobis?
-                </p>
-              </div>
-            </div>
+            <BoardCard
+              id={1}
+              title="Sprint Tasks"
+              description="A board to keep track of the team's work during each sprint. Tasks move from To Do through In Progress until they reach Done."
+              color="blue"
+            />
           </li>
           <li>
-            <div className={clsx(styles.board, "gray")}>
-              <div className={styles.cover}></div>
-              <div className={styles.content}>
-                <div className={styles.header}>
-                  <div className={styles.title}>Board 2</div>
-                  <a href="/board">View</a>
-                </div>
-                <p className={styles.description}>
-                  Accusamus adipisci at atque corporis dolorum eligendi expedita
-                  hic ipsam, laboriosam magni mollitia nobis nostrum,
-                  perferendis praesentium provident quae reprehenderit sapiente
-                  voluptates!
-                </p>
-              </div>
-            </div>
+            <BoardCard
+              id={2}
+              title="Content Calendar"
+              description="Plan and manage posts, blogs, or videos ahead of time. Items flow from Idea to Draft and finally to Published for a smooth content pipeline."
+              color="gray"
+            />
           </li>
           <li>
-            <div className={clsx(styles.board, "yellow")}>
-              <div className={styles.cover}></div>
-              <div className={styles.content}>
-                <div className={styles.header}>
-                  <div className={styles.title}>Board 3</div>
-                  <a href="/board">View</a>
-                </div>
-                <p className={styles.description}>
-                  Accusamus architecto, asperiores aut autem dignissimos earum
-                  error eveniet harum illo maiores maxime molestiae nam saepe
-                </p>
-              </div>
-            </div>
+            <BoardCard
+              id={3}
+              title="Personal Goals"
+              description="Organize personal or professional goals into small tasks."
+              color="yellow"
+            />
           </li>
         </ul>
       </main>
