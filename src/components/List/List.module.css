@@ -1,0 +1,33 @@
+.list {
+  background-color: var(--color-surface-2);
+  box-shadow: var(--shadow-2);
+
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+
+  max-block-size: 100%;
+
+  padding-block-end: 1rem;
+
+  border-radius: var(--border-radius-2);
+
+  inline-size: 20rem;
+
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+
+    padding: 1rem 1rem 0.5rem;
+  }
+
+  .items {
+    overflow: auto;
+
+    display: grid;
+    gap: 0.5rem;
+
+    padding: 0.25rem 1rem 0.5rem;
+  }
+}
