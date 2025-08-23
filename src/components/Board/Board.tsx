@@ -11,7 +11,7 @@ import type { ListType } from "@/types/list.ts";
 import styles from "./Board.module.css";
 
 export default function Board(): ReactNode {
-  const [todoList] = useState<ListType>({
+  const [todoList, setTodoList] = useState<ListType>({
     id: "1",
     title: "🔜 To Do",
     items: [
@@ -35,12 +35,20 @@ export default function Board(): ReactNode {
     items: [],
   });
 
+  const handleEditButtonClick = (): void => {
+    setTodoList((old) => {
+      const clone = [...old.items];
+      clone.splice(1, 1);
+      return { ...old, items: clone };
+    });
+  };
+
   return (
     <div className={styles.board}>
       <div className={styles.toolbar}>
         <div className={styles.title}>Board Title</div>
         <div className={styles.actions}>
-          <IconButton>
+          <IconButton onClick={handleEditButtonClick}>
             <MingcuteEdit2Line />
           </IconButton>
           <IconButton>
