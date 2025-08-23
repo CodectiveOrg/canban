@@ -35,6 +35,10 @@ body {
   font-size: var(--fz-400);
 }
 
+ul {
+  list-style: none;
+}
+
 a {
   color: var(--color-primary);
 
