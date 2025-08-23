@@ -1,0 +1,12 @@
+.error-page {
+  display: grid;
+  place-content: center;
+  place-items: center;
+
+  min-block-size: 100dvh;
+
+  h1 {
+    font-size: var(--fz-600);
+    font-weight: 100;
+  }
+}

@@ -1,0 +1,11 @@
+:root {
+  --fz-100: ;
+  --fz-200: clamp(0.5rem, 0.3929rem + 0.4762vw, 0.75rem);
+  --fz-300: clamp(0.75rem, 0.6964rem + 0.2381vw, 0.875rem);
+  --fz-400: clamp(0.875rem, 0.8214rem + 0.2381vw, 1rem);
+  --fz-500: clamp(1.125rem, 1.2321rem + -0.4762vw, 0.875rem);
+  --fz-600: clamp(1.5rem, 1.2857rem + 0.9524vw, 2rem);
+  --fz-700: clamp(1.75rem, 1.4286rem + 1.4286vw, 2.5rem);
+  --fz-800: clamp(2.5rem, 1.8571rem + 2.8571vw, 4rem);
+  --fz-900: clamp(3rem, 1.7143rem + 5.7143vw, 6rem);
+}

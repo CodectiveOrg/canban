@@ -1,0 +1,12 @@
+.not-found-page {
+  display: grid;
+  place-content: center;
+  place-items: center;
+
+  block-size: 100%;
+
+  h1 {
+    font-size: var(--fz-600);
+    font-weight: 100;
+  }
+}

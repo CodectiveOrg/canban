@@ -4,6 +4,7 @@
     "^(vite|@vitejs)(/(.*))?$",
     "^(react|react-dom)(/(.*))?$",
     "^react-router(/(.*))?$",
+    "^react-error-boundary(/(.*))?$",
     "^@tanstack(/(.*))?$",
     "^react-toastify(/(.*))?$",
     "^clsx(/(.*))?$",

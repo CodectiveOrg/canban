@@ -1,38 +1,44 @@
-.app {
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+
+  margin: 0;
+  padding: 0;
 }
 
-.counter {
-  display: grid;
-  justify-items: center;
-  gap: 1rem;
+html {
+  font-family: "Vazirmatn", sans-serif;
+}
 
-  inline-size: 10rem;
+input,
+label,
+select,
+textarea,
+button,
+fieldset,
+legend,
+datalist,
+output,
+option,
+optgroup {
+  font: inherit;
+}
 
-  padding: 1rem;
+body {
+  background-color: var(--color-surface-1);
 
-  border: 1px solid hsl(0, 0%, 70%);
-  border-radius: 0.5rem;
+  inline-size: min(75rem, 100% - 2rem);
 
-  .title {
-    font-weight: bold;
-  }
+  margin-inline: auto;
 
-  .count {
-    font-family: monospace;
-  }
+  font-size: var(--fz-400);
+}
 
-  .increment {
-    text-transform: uppercase;
-  }
+a {
+  color: var(--color-primary);
 
-  &.dark {
-    color-scheme: dark;
-
-    background-color: Canvas;
-    color: CanvasText;
-  }
-
-  &.primary {
-    border: 2px solid hsl(200, 100%, 50%);
+  &:hover {
+    color: var(--color-primary-dark);
   }
 }
