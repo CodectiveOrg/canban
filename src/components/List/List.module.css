@@ -3,7 +3,7 @@
   box-shadow: var(--shadow-2);
 
   display: grid;
-  grid-template-rows: auto minmax(0, 1fr);
+  grid-template-rows: auto 1fr;
 
   max-block-size: 100%;
 
