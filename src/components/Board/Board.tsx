@@ -6,9 +6,14 @@ import List from "@/components/List/List.tsx";
 import MingcuteAddLine from "@/icons/MingcuteAddLine.tsx";
 import MingcuteEdit2Line from "@/icons/MingcuteEdit2Line.tsx";
 
+import type { ListItemType } from "@/types/list-item.ts";
 import type { ListType } from "@/types/list.ts";
 
 import styles from "./Board.module.css";
+
+function cb(a: ListItemType, b: ListItemType): number {
+  return a.title.localeCompare(b.title);
+}
 
 export default function Board(): ReactNode {
   const [todoList, setTodoList] = useState<ListType>({
@@ -29,6 +34,7 @@ export default function Board(): ReactNode {
       { id: "5", title: "Design Landing Page" },
     ],
   });
+
   const [doneList] = useState<ListType>({
     id: "3",
     title: "🎉 Done",
@@ -43,6 +49,15 @@ export default function Board(): ReactNode {
     });
   };
 
+  const sortedTodoList = { ...todoList, items: [...todoList.items].sort(cb) };
+  const sortedDoingList = {
+    ...doingList,
+    items: [...doingList.items].sort(cb),
+  };
+  const sortedDoneList = { ...doneList, items: [...doneList.items].sort(cb) };
+
+  const [, setCounter] = useState(0);
+
   return (
     <div className={styles.board}>
       <div className={styles.toolbar}>
@@ -51,20 +66,20 @@ export default function Board(): ReactNode {
           <IconButton onClick={handleEditButtonClick}>
             <MingcuteEdit2Line />
           </IconButton>
-          <IconButton>
+          <IconButton onClick={() => setCounter((old) => old + 1)}>
             <MingcuteAddLine />
           </IconButton>
         </div>
       </div>
       <ul className={styles.lists}>
         <li>
-          <List list={todoList} />
+          <List list={sortedTodoList} />
         </li>
         <li>
-          <List list={doingList} />
+          <List list={sortedDoingList} />
         </li>
         <li>
-          <List list={doneList} />
+          <List list={sortedDoneList} />
         </li>
       </ul>
     </div>
