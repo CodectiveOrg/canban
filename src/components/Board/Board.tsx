@@ -1,4 +1,4 @@
-import { type ReactNode, useMemo, useState } from "react";
+import { type ReactNode, useCallback, useState } from "react";
 
 import IconButton from "@/components/IconButton/IconButton.tsx";
 import List from "@/components/List/List.tsx";
@@ -6,14 +6,9 @@ import List from "@/components/List/List.tsx";
 import MingcuteAddLine from "@/icons/MingcuteAddLine.tsx";
 import MingcuteEdit2Line from "@/icons/MingcuteEdit2Line.tsx";
 
-import type { ListItemType } from "@/types/list-item.ts";
 import type { ListType } from "@/types/list.ts";
 
 import styles from "./Board.module.css";
-
-function cb(a: ListItemType, b: ListItemType): number {
-  return a.title.localeCompare(b.title);
-}
 
 export default function Board(): ReactNode {
   const [todoList, setTodoList] = useState<ListType>({
@@ -49,23 +44,28 @@ export default function Board(): ReactNode {
     });
   };
 
-  const sortedTodoList = useMemo(() => {
-    return { ...todoList, items: [...todoList.items].sort(cb) };
-  }, [todoList]);
+  // const handleListItemClick = (id: string): void => {
+  //   setTodoList((old) => {
+  //     const clone = [...old.items];
+  //     return { ...old, items: clone.filter((item) => item.id !== id) };
+  //   });
+  // };
 
-  const sortedDoingList = useMemo(() => {
-    return { ...doingList, items: [...doingList.items].sort(cb) };
-  }, [doingList]);
+  // const handleListItemClick = useMemo(() => {
+  //   return (id: string): void => {
+  //     setTodoList((old) => {
+  //       const clone = [...old.items];
+  //       return { ...old, items: clone.filter((item) => item.id !== id) };
+  //     });
+  //   };
+  // }, []);
 
-  const sortedDoneList = useMemo(() => {
-    return { ...doneList, items: [...doneList.items].sort(cb) };
-  }, [doneList]);
-
-  const [, setCounter] = useState(0);
-
-  const result = useMemo(() => {
-    return (todoList.items.length * 1020893 * 872478) / 827649824;
-  }, [todoList.items.length]);
+  const handleListItemClick = useCallback((id: string): void => {
+    setTodoList((old) => {
+      const clone = [...old.items];
+      return { ...old, items: clone.filter((item) => item.id !== id) };
+    });
+  }, []);
 
   return (
     <div className={styles.board}>
@@ -75,20 +75,20 @@ export default function Board(): ReactNode {
           <IconButton onClick={handleEditButtonClick}>
             <MingcuteEdit2Line />
           </IconButton>
-          <IconButton onClick={() => setCounter((old) => old + 1)}>
+          <IconButton>
             <MingcuteAddLine />
           </IconButton>
         </div>
       </div>
       <ul className={styles.lists}>
         <li>
-          <List list={sortedTodoList} />
+          <List list={todoList} onClick={handleListItemClick} />
         </li>
         <li>
-          <List list={sortedDoingList} />
+          <List list={doingList} />
         </li>
         <li>
-          <List list={sortedDoneList} />
+          <List list={doneList} />
         </li>
       </ul>
     </div>

@@ -6,12 +6,17 @@ import styles from "./ListItem.module.css";
 
 type Props = {
   item: ListItemType;
+  onClick?: (id: string) => void;
 };
 
-const ListItem = memo(function ListItem({ item }: Props): ReactNode {
+const ListItem = memo(function ListItem({ item, onClick }: Props): ReactNode {
   console.log(item.title);
 
-  return <div className={styles["list-item"]}>{item.title}</div>;
+  return (
+    <div className={styles["list-item"]} onClick={() => onClick?.(item.id)}>
+      {item.title}
+    </div>
+  );
 });
 
 export default ListItem;
