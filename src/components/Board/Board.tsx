@@ -2,6 +2,7 @@ import { type ReactNode, useCallback, useState } from "react";
 
 import { listsData } from "@/data/lists-data.ts";
 
+import Button from "@/components/Button/Button.tsx";
 import IconButton from "@/components/IconButton/IconButton.tsx";
 import List from "@/components/List/List.tsx";
 
@@ -15,22 +16,32 @@ import styles from "./Board.module.css";
 export default function Board(): ReactNode {
   const [lists, setLists] = useState<ListType[]>(listsData);
 
-  const handleListItemClick = useCallback((id: string): void => {
-    setLists((old) => {
-      const clone = {
-        ...old[0],
-        items: [...old[0].items].filter((item) => item.id !== id),
-      };
+  const [activeListId, setActiveListId] = useState<string | null>(null);
+  const [activeItemId, setActiveItemId] = useState<string | null>(null);
 
-      return [clone, old[1], old[2]];
-    });
-  }, []);
+  const handleListItemClick = useCallback(
+    (listId: string, itemId: string): void => {
+      setActiveListId(listId);
+      setActiveItemId(itemId);
+    },
+    [],
+  );
 
   return (
     <div className={styles.board}>
       <div className={styles.toolbar}>
         <div className={styles.title}>Board Title</div>
         <div className={styles.actions}>
+          {activeListId !== null && (
+            <div className={styles.spacer}>
+              {lists
+                .filter((list) => list.id !== activeListId)
+                .map((list) => (
+                  <Button key={list.id}>{list.title}</Button>
+                ))}
+              <Button>Remove</Button>
+            </div>
+          )}
           <IconButton>
             <MingcuteEdit2Line />
           </IconButton>
@@ -40,15 +51,11 @@ export default function Board(): ReactNode {
         </div>
       </div>
       <ul className={styles.lists}>
-        <li>
-          <List list={lists[0]} onClick={handleListItemClick} />
-        </li>
-        <li>
-          <List list={lists[1]} />
-        </li>
-        <li>
-          <List list={lists[2]} />
-        </li>
+        {lists.map((list) => (
+          <li key={list.id}>
+            <List list={list} onClick={handleListItemClick} />
+          </li>
+        ))}
       </ul>
     </div>
   );
