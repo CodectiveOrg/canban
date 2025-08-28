@@ -27,6 +27,41 @@ export default function Board(): ReactNode {
     [],
   );
 
+  const handleRemoveButtonClick = (): void => {
+    setLists((old) => {
+      try {
+        const activeListIndex = old.findIndex(
+          (list) => list.id === activeListId,
+        );
+
+        if (activeListIndex === -1) {
+          console.error("Cannot find desired list.");
+          return old;
+        }
+
+        const clone = [...old];
+        const activeList = { ...clone[activeListIndex] };
+
+        const activeItemIndex = activeList.items.findIndex(
+          (item) => item.id === activeItemId,
+        );
+
+        if (activeItemIndex === -1) {
+          console.error("Cannot find desired item.");
+          return old;
+        }
+
+        activeList.items.splice(activeItemIndex, 1);
+
+        clone[activeListIndex] = activeList;
+        return clone;
+      } finally {
+        setActiveListId(null);
+        setActiveItemId(null);
+      }
+    });
+  };
+
   return (
     <div className={styles.board}>
       <div className={styles.toolbar}>
@@ -39,7 +74,7 @@ export default function Board(): ReactNode {
                 .map((list) => (
                   <Button key={list.id}>{list.title}</Button>
                 ))}
-              <Button>Remove</Button>
+              <Button onClick={handleRemoveButtonClick}>Remove</Button>
             </div>
           )}
           <IconButton>
