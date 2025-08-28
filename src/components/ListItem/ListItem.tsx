@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import { type ReactNode, memo } from "react";
 
 import type { ListItemType } from "@/types/list-item.ts";
 
@@ -8,6 +8,10 @@ type Props = {
   item: ListItemType;
 };
 
-export default function ListItem({ item }: Props): ReactNode {
+const ListItem = memo(function ListItem({ item }: Props): ReactNode {
+  console.log(item.title);
+
   return <div className={styles["list-item"]}>{item.title}</div>;
-}
+});
+
+export default ListItem;
