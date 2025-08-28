@@ -1,4 +1,4 @@
-import { type ReactNode, useState } from "react";
+import { type ReactNode, useMemo, useState } from "react";
 
 import IconButton from "@/components/IconButton/IconButton.tsx";
 import List from "@/components/List/List.tsx";
@@ -49,14 +49,23 @@ export default function Board(): ReactNode {
     });
   };
 
-  const sortedTodoList = { ...todoList, items: [...todoList.items].sort(cb) };
-  const sortedDoingList = {
-    ...doingList,
-    items: [...doingList.items].sort(cb),
-  };
-  const sortedDoneList = { ...doneList, items: [...doneList.items].sort(cb) };
+  const sortedTodoList = useMemo(() => {
+    return { ...todoList, items: [...todoList.items].sort(cb) };
+  }, [todoList]);
+
+  const sortedDoingList = useMemo(() => {
+    return { ...doingList, items: [...doingList.items].sort(cb) };
+  }, [doingList]);
+
+  const sortedDoneList = useMemo(() => {
+    return { ...doneList, items: [...doneList.items].sort(cb) };
+  }, [doneList]);
 
   const [, setCounter] = useState(0);
+
+  const result = useMemo(() => {
+    return (todoList.items.length * 1020893 * 872478) / 827649824;
+  }, [todoList.items.length]);
 
   return (
     <div className={styles.board}>

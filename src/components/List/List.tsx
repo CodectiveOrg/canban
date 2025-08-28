@@ -13,41 +13,26 @@ type Props = {
   list: ListType;
 };
 
-const List = memo(
-  function List({ list }: Props): ReactNode {
-    console.log(list.title);
+const List = memo(function List({ list }: Props): ReactNode {
+  console.log(list.title);
 
-    return (
-      <div className={styles.list}>
-        <div className={styles.header}>
-          <div className={styles.title}>{list.title}</div>
-          <IconButton>
-            <MingcuteMore1Line />
-          </IconButton>
-        </div>
-        <ul className={styles.items}>
-          {list.items.map((item) => (
-            <li key={item.id}>
-              <ListItem item={item} />
-            </li>
-          ))}
-        </ul>
+  return (
+    <div className={styles.list}>
+      <div className={styles.header}>
+        <div className={styles.title}>{list.title}</div>
+        <IconButton>
+          <MingcuteMore1Line />
+        </IconButton>
       </div>
-    );
-  },
-  (prev, next) => {
-    if (prev.list.items.length !== next.list.items.length) {
-      return false;
-    }
-
-    for (let i = 0; i < prev.list.items.length; i++) {
-      if (prev.list.items[i].title !== next.list.items[i].title) {
-        return false;
-      }
-    }
-
-    return true;
-  },
-);
+      <ul className={styles.items}>
+        {list.items.map((item) => (
+          <li key={item.id}>
+            <ListItem item={item} />
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+});
 
 export default List;
