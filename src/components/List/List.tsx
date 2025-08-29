@@ -15,8 +15,6 @@ type Props = {
 };
 
 const List = memo(function List({ list, onClick }: Props): ReactNode {
-  console.log(list.title);
-
   const moreIcon = useMemo(() => <MingcuteMore1Line />, []);
 
   return (

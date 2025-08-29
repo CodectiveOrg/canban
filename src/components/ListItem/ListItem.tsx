@@ -15,8 +15,6 @@ const ListItem = memo(function ListItem({
   item,
   onClick,
 }: Props): ReactNode {
-  console.log(item.title);
-
   return (
     <div
       className={styles["list-item"]}

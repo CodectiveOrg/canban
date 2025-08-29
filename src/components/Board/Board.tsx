@@ -27,6 +27,17 @@ export default function Board(): ReactNode {
     [],
   );
 
+  const handleCreateButtonClick = (): void => {
+    setLists((old) => {
+      const clone = [...old];
+
+      const id = globalThis.crypto.randomUUID();
+      clone[0] = { ...clone[0], items: [...clone[0].items, { id, title: id }] };
+
+      return clone;
+    });
+  };
+
   const handleMoveButtonClick = useCallback(
     (destinationListId: string): void => {
       setLists((old) => {
@@ -139,7 +150,7 @@ export default function Board(): ReactNode {
             </div>
           )}
           <IconButton>{editIcon}</IconButton>
-          <IconButton>{addIcon}</IconButton>
+          <IconButton onClick={handleCreateButtonClick}>{addIcon}</IconButton>
         </div>
       </div>
       <ul className={styles.lists}>
