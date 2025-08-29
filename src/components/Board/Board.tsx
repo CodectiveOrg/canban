@@ -1,5 +1,8 @@
-import { type ReactNode, useState } from "react";
+import { type ReactNode, useCallback, useMemo, useState } from "react";
 
+import { listsData } from "@/data/lists-data.ts";
+
+import Button from "@/components/Button/Button.tsx";
 import IconButton from "@/components/IconButton/IconButton.tsx";
 import List from "@/components/List/List.tsx";
 
@@ -11,61 +14,140 @@ import type { ListType } from "@/types/list.ts";
 import styles from "./Board.module.css";
 
 export default function Board(): ReactNode {
-  const [todoList, setTodoList] = useState<ListType>({
-    id: "1",
-    title: "🔜 To Do",
-    items: [
-      { id: "1", title: "Setup Backend Project" },
-      { id: "2", title: "Find a Good Name for the Project" },
-      { id: "3", title: "Implement Landing Page" },
-    ],
-  });
+  const [lists, setLists] = useState<ListType[]>(listsData);
 
-  const [doingList] = useState<ListType>({
-    id: "2",
-    title: "🔨 Doing",
-    items: [
-      { id: "4", title: "Setup Frontend Project" },
-      { id: "5", title: "Design Landing Page" },
-    ],
-  });
-  const [doneList] = useState<ListType>({
-    id: "3",
-    title: "🎉 Done",
-    items: [],
-  });
+  const [activeListId, setActiveListId] = useState<string | null>(null);
+  const [activeItemId, setActiveItemId] = useState<string | null>(null);
 
-  const handleEditButtonClick = (): void => {
-    setTodoList((old) => {
-      const clone = [...old.items];
-      clone.splice(1, 1);
-      return { ...old, items: clone };
+  const handleListItemClick = useCallback(
+    (listId: string, itemId: string): void => {
+      setActiveListId(listId);
+      setActiveItemId(itemId);
+    },
+    [],
+  );
+
+  const handleMoveButtonClick = useCallback(
+    (destinationListId: string): void => {
+      setLists((old) => {
+        try {
+          const activeListIndex = old.findIndex(
+            (list) => list.id === activeListId,
+          );
+          const destinationListIndex = old.findIndex(
+            (list) => list.id === destinationListId,
+          );
+
+          if (activeListIndex === -1 || destinationListIndex === -1) {
+            console.error("Cannot find desired list.");
+            return old;
+          }
+
+          const clone = [...old];
+          const activeList = {
+            ...clone[activeListIndex],
+            items: [...clone[activeListIndex].items],
+          };
+          const destinationList = {
+            ...clone[destinationListIndex],
+            items: [...clone[destinationListIndex].items],
+          };
+
+          const activeItemIndex = activeList.items.findIndex(
+            (item) => item.id === activeItemId,
+          );
+
+          if (activeItemIndex === -1) {
+            console.error("Cannot find desired item.");
+            return old;
+          }
+
+          const [activeItem] = activeList.items.splice(activeItemIndex, 1);
+          destinationList.items.push(activeItem);
+
+          clone[activeListIndex] = activeList;
+          clone[destinationListIndex] = destinationList;
+          return clone;
+        } finally {
+          setActiveListId(null);
+          setActiveItemId(null);
+        }
+      });
+    },
+    [activeItemId, activeListId],
+  );
+
+  const handleRemoveButtonClick = useCallback((): void => {
+    setLists((old) => {
+      try {
+        const activeListIndex = old.findIndex(
+          (list) => list.id === activeListId,
+        );
+
+        if (activeListIndex === -1) {
+          console.error("Cannot find desired list.");
+          return old;
+        }
+
+        const clone = [...old];
+        const activeList = {
+          ...clone[activeListIndex],
+          items: [...clone[activeListIndex].items],
+        };
+
+        const activeItemIndex = activeList.items.findIndex(
+          (item) => item.id === activeItemId,
+        );
+
+        if (activeItemIndex === -1) {
+          console.error("Cannot find desired item.");
+          return old;
+        }
+
+        activeList.items.splice(activeItemIndex, 1);
+
+        clone[activeListIndex] = activeList;
+        return clone;
+      } finally {
+        setActiveListId(null);
+        setActiveItemId(null);
+      }
     });
-  };
+  }, [activeItemId, activeListId]);
+
+  const editIcon = useMemo(() => <MingcuteEdit2Line />, []);
+  const addIcon = useMemo(() => <MingcuteAddLine />, []);
 
   return (
     <div className={styles.board}>
       <div className={styles.toolbar}>
         <div className={styles.title}>Board Title</div>
         <div className={styles.actions}>
-          <IconButton onClick={handleEditButtonClick}>
-            <MingcuteEdit2Line />
-          </IconButton>
-          <IconButton>
-            <MingcuteAddLine />
-          </IconButton>
+          {activeListId !== null && (
+            <div className={styles.spacer}>
+              {lists
+                .filter((list) => list.id !== activeListId)
+                .map((list) => (
+                  <Button
+                    key={list.id}
+                    onClick={() => handleMoveButtonClick(list.id)}
+                  >
+                    {list.title}
+                  </Button>
+                ))}
+              <Button onClick={handleRemoveButtonClick}>Remove</Button>
+            </div>
+          )}
+          <IconButton>{editIcon}</IconButton>
+          <IconButton>{addIcon}</IconButton>
         </div>
       </div>
       <ul className={styles.lists}>
-        <li>
-          <List list={todoList} />
-        </li>
-        <li>
-          <List list={doingList} />
-        </li>
-        <li>
-          <List list={doneList} />
-        </li>
+        {lists.map((list) => (
+          <li key={list.id}>
+            <List list={list} onClick={handleListItemClick} />
+          </li>
+        ))}
       </ul>
     </div>
   );

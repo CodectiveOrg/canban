@@ -1,6 +1,6 @@
-import type { ReactNode, SVGProps } from "react";
+import { type ReactNode, type SVGProps, memo } from "react";
 
-export default function MingcuteEdit2Line(
+const MingcuteEdit2Line = memo(function MingcuteEdit2Line(
   props: SVGProps<SVGSVGElement>,
 ): ReactNode {
   return (
@@ -21,4 +21,6 @@ export default function MingcuteEdit2Line(
       </g>
     </svg>
   );
-}
+});
+
+export default MingcuteEdit2Line;

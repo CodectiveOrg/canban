@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import { type ReactNode, memo, useMemo } from "react";
 
 import IconButton from "@/components/IconButton/IconButton.tsx";
 import ListItem from "@/components/ListItem/ListItem.tsx";
@@ -11,24 +11,29 @@ import styles from "./List.module.css";
 
 type Props = {
   list: ListType;
+  onClick?: (listId: string, itemId: string) => void;
 };
 
-export default function List({ list }: Props): ReactNode {
+const List = memo(function List({ list, onClick }: Props): ReactNode {
+  console.log(list.title);
+
+  const moreIcon = useMemo(() => <MingcuteMore1Line />, []);
+
   return (
     <div className={styles.list}>
       <div className={styles.header}>
         <div className={styles.title}>{list.title}</div>
-        <IconButton>
-          <MingcuteMore1Line />
-        </IconButton>
+        <IconButton>{moreIcon}</IconButton>
       </div>
       <ul className={styles.items}>
         {list.items.map((item) => (
           <li key={item.id}>
-            <ListItem item={item} />
+            <ListItem listId={list.id} item={item} onClick={onClick} />
           </li>
         ))}
       </ul>
     </div>
   );
-}
+});
+
+export default List;
