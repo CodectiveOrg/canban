@@ -33,6 +33,8 @@ function load(): ListType[] {
 }
 
 export default function Board(): ReactNode {
+  console.log("render");
+
   const [lists, setLists] = useState<ListType[]>(load);
 
   const [activeListId, setActiveListId] = useState<string | null>(null);
@@ -43,7 +45,7 @@ export default function Board(): ReactNode {
   }, [lists]);
 
   useEffect(() => {
-    document.addEventListener("keydown", (e) => {
+    const handleDocumentKeyDown = (e: KeyboardEvent): void => {
       console.log("keydown");
 
       if (e.code !== "Escape") {
@@ -52,7 +54,13 @@ export default function Board(): ReactNode {
 
       setActiveListId(null);
       setActiveItemId(null);
-    });
+    };
+
+    document.addEventListener("keydown", handleDocumentKeyDown);
+
+    return (): void => {
+      document.removeEventListener("keydown", handleDocumentKeyDown);
+    };
   }, []);
 
   const handleListItemClick = useCallback(
