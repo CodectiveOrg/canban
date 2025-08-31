@@ -1,9 +1,10 @@
-import { type ReactNode, use, useEffect, useState } from "react";
+import { type ReactNode, use } from "react";
 
 import Button from "@/components/Button/Button.tsx";
 import IconButton from "@/components/IconButton/IconButton.tsx";
 import List from "@/components/List/List.tsx";
 
+import { ActiveItemContext } from "@/context/active-item-context.ts";
 import { BoardContext } from "@/context/board-context.ts";
 
 import MingcuteAddLine from "@/icons/MingcuteAddLine.tsx";
@@ -14,30 +15,7 @@ import styles from "./Board.module.css";
 export default function Board(): ReactNode {
   const { lists, create, move } = use(BoardContext);
 
-  const [activeListId, setActiveListId] = useState<string | null>(null);
-  const [activeItemId, setActiveItemId] = useState<string | null>(null);
-
-  useEffect(() => {
-    const handleDocumentKeyDown = (e: KeyboardEvent): void => {
-      if (e.code !== "Escape") {
-        return;
-      }
-
-      setActiveListId(null);
-      setActiveItemId(null);
-    };
-
-    document.addEventListener("keydown", handleDocumentKeyDown);
-
-    return (): void => {
-      document.removeEventListener("keydown", handleDocumentKeyDown);
-    };
-  }, []);
-
-  const handleListItemClick = (listId: string, itemId: string): void => {
-    setActiveListId(listId);
-    setActiveItemId(itemId);
-  };
+  const { activeListId, activeItemId, deactivate } = use(ActiveItemContext);
 
   const handleCreateButtonClick = (): void => {
     create();
@@ -48,8 +26,7 @@ export default function Board(): ReactNode {
       move(activeListId, activeItemId, toListId);
     }
 
-    setActiveListId(null);
-    setActiveItemId(null);
+    deactivate();
   };
 
   return (
@@ -82,7 +59,7 @@ export default function Board(): ReactNode {
       <ul className={styles.lists}>
         {lists.map((list) => (
           <li key={list.id}>
-            <List list={list} onClick={handleListItemClick} />
+            <List list={list} />
           </li>
         ))}
       </ul>

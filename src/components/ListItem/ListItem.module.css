@@ -9,6 +9,7 @@
 
   padding: 0.5rem;
 
+  border: 1px solid transparent;
   border-radius: var(--border-radius-2);
 
   button {
@@ -19,5 +20,9 @@
     button {
       opacity: 1;
     }
+  }
+
+  &.active {
+    border-color: var(--color-primary);
   }
 }
