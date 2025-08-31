@@ -1,5 +1,7 @@
 import { type ReactNode, use } from "react";
 
+import { toast } from "react-toastify";
+
 import Button from "@/components/Button/Button.tsx";
 import IconButton from "@/components/IconButton/IconButton.tsx";
 import List from "@/components/List/List.tsx";
@@ -19,11 +21,13 @@ export default function Board(): ReactNode {
 
   const handleCreateButtonClick = (): void => {
     create();
+    toast.success("Item created successfully.");
   };
 
   const handleMoveButtonClick = (toListId: string): void => {
     if (activeListId && activeItemId) {
       move(activeListId, activeItemId, toListId);
+      toast.success("Item moved successfully.");
     }
 
     deactivate();

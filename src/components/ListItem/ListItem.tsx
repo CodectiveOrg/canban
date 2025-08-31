@@ -1,5 +1,7 @@
 import { type MouseEvent, type ReactNode, use } from "react";
 
+import { toast } from "react-toastify";
+
 import clsx from "clsx";
 
 import IconButton from "@/components/IconButton/IconButton.tsx";
@@ -34,6 +36,8 @@ export default function ListItem({ listId, item }: Props): ReactNode {
     e.stopPropagation();
 
     remove(listId, item.id);
+    toast.success("Item removed successfully.");
+
     deactivate();
   };
 
