@@ -1,10 +1,4 @@
-import {
-  type ReactNode,
-  useCallback,
-  useEffect,
-  useMemo,
-  useState,
-} from "react";
+import { type ReactNode, useEffect, useState } from "react";
 
 import { listsData } from "@/data/lists-data.ts";
 
@@ -59,13 +53,10 @@ export default function Board(): ReactNode {
     };
   }, []);
 
-  const handleListItemClick = useCallback(
-    (listId: string, itemId: string): void => {
-      setActiveListId(listId);
-      setActiveItemId(itemId);
-    },
-    [],
-  );
+  const handleListItemClick = (listId: string, itemId: string): void => {
+    setActiveListId(listId);
+    setActiveItemId(itemId);
+  };
 
   const handleCreateButtonClick = (): void => {
     setLists((old) => {
@@ -78,57 +69,54 @@ export default function Board(): ReactNode {
     });
   };
 
-  const handleMoveButtonClick = useCallback(
-    (destinationListId: string): void => {
-      setLists((old) => {
-        try {
-          const activeListIndex = old.findIndex(
-            (list) => list.id === activeListId,
-          );
-          const destinationListIndex = old.findIndex(
-            (list) => list.id === destinationListId,
-          );
+  const handleMoveButtonClick = (destinationListId: string): void => {
+    setLists((old) => {
+      try {
+        const activeListIndex = old.findIndex(
+          (list) => list.id === activeListId,
+        );
+        const destinationListIndex = old.findIndex(
+          (list) => list.id === destinationListId,
+        );
 
-          if (activeListIndex === -1 || destinationListIndex === -1) {
-            console.error("Cannot find desired list.");
-            return old;
-          }
-
-          const clone = [...old];
-          const activeList = {
-            ...clone[activeListIndex],
-            items: [...clone[activeListIndex].items],
-          };
-          const destinationList = {
-            ...clone[destinationListIndex],
-            items: [...clone[destinationListIndex].items],
-          };
-
-          const activeItemIndex = activeList.items.findIndex(
-            (item) => item.id === activeItemId,
-          );
-
-          if (activeItemIndex === -1) {
-            console.error("Cannot find desired item.");
-            return old;
-          }
-
-          const [activeItem] = activeList.items.splice(activeItemIndex, 1);
-          destinationList.items.push(activeItem);
-
-          clone[activeListIndex] = activeList;
-          clone[destinationListIndex] = destinationList;
-          return clone;
-        } finally {
-          setActiveListId(null);
-          setActiveItemId(null);
+        if (activeListIndex === -1 || destinationListIndex === -1) {
+          console.error("Cannot find desired list.");
+          return old;
         }
-      });
-    },
-    [activeItemId, activeListId],
-  );
 
-  const handleRemoveButtonClick = useCallback((): void => {
+        const clone = [...old];
+        const activeList = {
+          ...clone[activeListIndex],
+          items: [...clone[activeListIndex].items],
+        };
+        const destinationList = {
+          ...clone[destinationListIndex],
+          items: [...clone[destinationListIndex].items],
+        };
+
+        const activeItemIndex = activeList.items.findIndex(
+          (item) => item.id === activeItemId,
+        );
+
+        if (activeItemIndex === -1) {
+          console.error("Cannot find desired item.");
+          return old;
+        }
+
+        const [activeItem] = activeList.items.splice(activeItemIndex, 1);
+        destinationList.items.push(activeItem);
+
+        clone[activeListIndex] = activeList;
+        clone[destinationListIndex] = destinationList;
+        return clone;
+      } finally {
+        setActiveListId(null);
+        setActiveItemId(null);
+      }
+    });
+  };
+
+  const handleRemoveButtonClick = (): void => {
     setLists((old) => {
       try {
         const activeListIndex = old.findIndex(
@@ -164,10 +152,7 @@ export default function Board(): ReactNode {
         setActiveItemId(null);
       }
     });
-  }, [activeItemId, activeListId]);
-
-  const editIcon = useMemo(() => <MingcuteEdit2Line />, []);
-  const addIcon = useMemo(() => <MingcuteAddLine />, []);
+  };
 
   return (
     <div className={styles.board}>
@@ -189,8 +174,12 @@ export default function Board(): ReactNode {
               <Button onClick={handleRemoveButtonClick}>Remove</Button>
             </div>
           )}
-          <IconButton>{editIcon}</IconButton>
-          <IconButton onClick={handleCreateButtonClick}>{addIcon}</IconButton>
+          <IconButton>
+            <MingcuteEdit2Line />
+          </IconButton>
+          <IconButton onClick={handleCreateButtonClick}>
+            <MingcuteAddLine />
+          </IconButton>
         </div>
       </div>
       <ul className={styles.lists}>

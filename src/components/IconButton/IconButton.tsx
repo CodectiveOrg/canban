@@ -1,4 +1,4 @@
-import { type ComponentProps, type ReactNode, memo } from "react";
+import type { ComponentProps, ReactNode } from "react";
 
 import clsx from "clsx";
 
@@ -6,7 +6,7 @@ import styles from "./IconButton.module.css";
 
 type Props = ComponentProps<"button">;
 
-const IconButton = memo(function IconButton({
+export default function IconButton({
   className,
   children,
   ...otherProps
@@ -16,6 +16,4 @@ const IconButton = memo(function IconButton({
       {children}
     </button>
   );
-});
-
-export default IconButton;
+}
