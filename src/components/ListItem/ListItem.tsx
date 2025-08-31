@@ -1,6 +1,8 @@
-import type { MouseEvent, ReactNode } from "react";
+import { type MouseEvent, type ReactNode, useContext } from "react";
 
 import IconButton from "@/components/IconButton/IconButton.tsx";
+
+import { CounterContext } from "@/context/counter-context.ts";
 
 import MingcuteDelete2Line from "@/icons/MingcuteDelete2Line.tsx";
 
@@ -21,8 +23,12 @@ export default function ListItem({
   onClick,
   onRemove,
 }: Props): ReactNode {
+  const { decrement } = useContext(CounterContext);
+
   const handleRemoveButtonClick = (e: MouseEvent<HTMLButtonElement>): void => {
     e.stopPropagation();
+
+    decrement();
 
     onRemove?.(listId, item.id);
   };

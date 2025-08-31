@@ -1,10 +1,12 @@
-import { type ReactNode, useEffect, useState } from "react";
+import { type ReactNode, useContext, useEffect, useState } from "react";
 
 import { listsData } from "@/data/lists-data.ts";
 
 import Button from "@/components/Button/Button.tsx";
 import IconButton from "@/components/IconButton/IconButton.tsx";
 import List from "@/components/List/List.tsx";
+
+import { CounterContext } from "@/context/counter-context.ts";
 
 import MingcuteAddLine from "@/icons/MingcuteAddLine.tsx";
 import MingcuteEdit2Line from "@/icons/MingcuteEdit2Line.tsx";
@@ -27,6 +29,8 @@ function load(): ListType[] {
 }
 
 export default function Board(): ReactNode {
+  const { count, increment } = useContext(CounterContext);
+
   const [lists, setLists] = useState<ListType[]>(load);
 
   const [activeListId, setActiveListId] = useState<string | null>(null);
@@ -59,6 +63,8 @@ export default function Board(): ReactNode {
   };
 
   const handleCreateButtonClick = (): void => {
+    increment();
+
     setLists((old) => {
       const clone = [...old];
 
@@ -150,7 +156,7 @@ export default function Board(): ReactNode {
   return (
     <div className={styles.board}>
       <div className={styles.toolbar}>
-        <div className={styles.title}>Board Title</div>
+        <div className={styles.title}>Board Title {count}</div>
         <div className={styles.actions}>
           {activeListId !== null && (
             <div className={styles.spacer}>
