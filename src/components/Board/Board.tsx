@@ -33,8 +33,6 @@ function load(): ListType[] {
 }
 
 export default function Board(): ReactNode {
-  console.log("render");
-
   const [lists, setLists] = useState<ListType[]>(load);
 
   const [activeListId, setActiveListId] = useState<string | null>(null);
@@ -46,8 +44,6 @@ export default function Board(): ReactNode {
 
   useEffect(() => {
     const handleDocumentKeyDown = (e: KeyboardEvent): void => {
-      console.log("keydown");
-
       if (e.code !== "Escape") {
         return;
       }
