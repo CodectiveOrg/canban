@@ -116,41 +116,34 @@ export default function Board(): ReactNode {
     });
   };
 
-  const handleRemoveButtonClick = (): void => {
+  const handleListItemRemove = (listId: string, itemId: string): void => {
     setLists((old) => {
-      try {
-        const activeListIndex = old.findIndex(
-          (list) => list.id === activeListId,
-        );
+      const activeListIndex = old.findIndex((list) => list.id === listId);
 
-        if (activeListIndex === -1) {
-          console.error("Cannot find desired list.");
-          return old;
-        }
-
-        const clone = [...old];
-        const activeList = {
-          ...clone[activeListIndex],
-          items: [...clone[activeListIndex].items],
-        };
-
-        const activeItemIndex = activeList.items.findIndex(
-          (item) => item.id === activeItemId,
-        );
-
-        if (activeItemIndex === -1) {
-          console.error("Cannot find desired item.");
-          return old;
-        }
-
-        activeList.items.splice(activeItemIndex, 1);
-
-        clone[activeListIndex] = activeList;
-        return clone;
-      } finally {
-        setActiveListId(null);
-        setActiveItemId(null);
+      if (activeListIndex === -1) {
+        console.error("Cannot find desired list.");
+        return old;
       }
+
+      const clone = [...old];
+      const activeList = {
+        ...clone[activeListIndex],
+        items: [...clone[activeListIndex].items],
+      };
+
+      const activeItemIndex = activeList.items.findIndex(
+        (item) => item.id === itemId,
+      );
+
+      if (activeItemIndex === -1) {
+        console.error("Cannot find desired item.");
+        return old;
+      }
+
+      activeList.items.splice(activeItemIndex, 1);
+
+      clone[activeListIndex] = activeList;
+      return clone;
     });
   };
 
@@ -171,7 +164,6 @@ export default function Board(): ReactNode {
                     {list.title}
                   </Button>
                 ))}
-              <Button onClick={handleRemoveButtonClick}>Remove</Button>
             </div>
           )}
           <IconButton>
@@ -185,7 +177,11 @@ export default function Board(): ReactNode {
       <ul className={styles.lists}>
         {lists.map((list) => (
           <li key={list.id}>
-            <List list={list} onClick={handleListItemClick} />
+            <List
+              list={list}
+              onClick={handleListItemClick}
+              onRemove={handleListItemRemove}
+            />
           </li>
         ))}
       </ul>
