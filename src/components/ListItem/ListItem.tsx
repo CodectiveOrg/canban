@@ -1,4 +1,4 @@
-import { type MouseEvent, type ReactNode, useContext } from "react";
+import { type MouseEvent, type ReactNode, use } from "react";
 
 import IconButton from "@/components/IconButton/IconButton.tsx";
 
@@ -17,7 +17,7 @@ type Props = {
 };
 
 export default function ListItem({ listId, item, onClick }: Props): ReactNode {
-  const { remove } = useContext(BoardContext);
+  const { remove } = use(BoardContext);
 
   const handleRemoveButtonClick = (e: MouseEvent<HTMLButtonElement>): void => {
     e.stopPropagation();

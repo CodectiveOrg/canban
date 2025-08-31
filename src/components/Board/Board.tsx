@@ -1,4 +1,4 @@
-import { type ReactNode, useContext, useEffect, useState } from "react";
+import { type ReactNode, use, useEffect, useState } from "react";
 
 import Button from "@/components/Button/Button.tsx";
 import IconButton from "@/components/IconButton/IconButton.tsx";
@@ -12,7 +12,7 @@ import MingcuteEdit2Line from "@/icons/MingcuteEdit2Line.tsx";
 import styles from "./Board.module.css";
 
 export default function Board(): ReactNode {
-  const { lists, create, move } = useContext(BoardContext);
+  const { lists, create, move } = use(BoardContext);
 
   const [activeListId, setActiveListId] = useState<string | null>(null);
   const [activeItemId, setActiveItemId] = useState<string | null>(null);
