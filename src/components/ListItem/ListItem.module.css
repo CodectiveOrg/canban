@@ -2,7 +2,27 @@
   background-color: var(--color-surface-3);
   box-shadow: var(--shadow-2);
 
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: start;
+  gap: 1rem;
+
   padding: 0.5rem;
 
+  border: 1px solid transparent;
   border-radius: var(--border-radius-2);
+
+  button {
+    opacity: 0;
+  }
+
+  &:hover {
+    button {
+      opacity: 1;
+    }
+  }
+
+  &.active {
+    border-color: var(--color-primary);
+  }
 }

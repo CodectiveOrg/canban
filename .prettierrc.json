@@ -17,10 +17,11 @@
     "^@/icons",
     "^@/pages",
     "^@/providers",
+    "^@/reducers",
     "^@/stores",
+    "^@/styles",
     "^@/types",
     "^@/utils",
-    "^@/styles",
     "^(\\.|\\.\\.)/(.(?!.css))*$",
     "\\.css$"
   ],
