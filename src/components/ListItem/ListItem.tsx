@@ -1,6 +1,8 @@
-import { type MouseEvent, type ReactNode } from "react";
+import { type MouseEvent, type ReactNode, useContext } from "react";
 
 import IconButton from "@/components/IconButton/IconButton.tsx";
+
+import { BoardContext } from "@/context/board-context.ts";
 
 import MingcuteDelete2Line from "@/icons/MingcuteDelete2Line.tsx";
 
@@ -12,19 +14,15 @@ type Props = {
   listId: string;
   item: ListItemType;
   onClick?: (listId: string, itemId: string) => void;
-  onRemove?: (listId: string, itemId: string) => void;
 };
 
-export default function ListItem({
-  listId,
-  item,
-  onClick,
-  onRemove,
-}: Props): ReactNode {
+export default function ListItem({ listId, item, onClick }: Props): ReactNode {
+  const { remove } = useContext(BoardContext);
+
   const handleRemoveButtonClick = (e: MouseEvent<HTMLButtonElement>): void => {
     e.stopPropagation();
 
-    onRemove?.(listId, item.id);
+    remove(listId, item.id);
   };
 
   return (
