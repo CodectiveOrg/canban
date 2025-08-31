@@ -1,4 +1,10 @@
-import { type ReactNode, useCallback, useMemo, useState } from "react";
+import {
+  type ReactNode,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 
 import { listsData } from "@/data/lists-data.ts";
 
@@ -13,11 +19,49 @@ import type { ListType } from "@/types/list.ts";
 
 import styles from "./Board.module.css";
 
+function save(lists: ListType[]): void {
+  localStorage.setItem("lists", JSON.stringify(lists));
+}
+
+function load(): ListType[] {
+  const item = localStorage.getItem("lists");
+  if (!item) {
+    return listsData;
+  }
+
+  return JSON.parse(item);
+}
+
 export default function Board(): ReactNode {
-  const [lists, setLists] = useState<ListType[]>(listsData);
+  console.log("render");
+
+  const [lists, setLists] = useState<ListType[]>(load);
 
   const [activeListId, setActiveListId] = useState<string | null>(null);
   const [activeItemId, setActiveItemId] = useState<string | null>(null);
+
+  useEffect(() => {
+    save(lists);
+  }, [lists]);
+
+  useEffect(() => {
+    const handleDocumentKeyDown = (e: KeyboardEvent): void => {
+      console.log("keydown");
+
+      if (e.code !== "Escape") {
+        return;
+      }
+
+      setActiveListId(null);
+      setActiveItemId(null);
+    };
+
+    document.addEventListener("keydown", handleDocumentKeyDown);
+
+    return (): void => {
+      document.removeEventListener("keydown", handleDocumentKeyDown);
+    };
+  }, []);
 
   const handleListItemClick = useCallback(
     (listId: string, itemId: string): void => {
@@ -26,6 +70,17 @@ export default function Board(): ReactNode {
     },
     [],
   );
+
+  const handleCreateButtonClick = (): void => {
+    setLists((old) => {
+      const clone = [...old];
+
+      const id = globalThis.crypto.randomUUID();
+      clone[0] = { ...clone[0], items: [...clone[0].items, { id, title: id }] };
+
+      return clone;
+    });
+  };
 
   const handleMoveButtonClick = useCallback(
     (destinationListId: string): void => {
@@ -139,7 +194,7 @@ export default function Board(): ReactNode {
             </div>
           )}
           <IconButton>{editIcon}</IconButton>
-          <IconButton>{addIcon}</IconButton>
+          <IconButton onClick={handleCreateButtonClick}>{addIcon}</IconButton>
         </div>
       </div>
       <ul className={styles.lists}>
