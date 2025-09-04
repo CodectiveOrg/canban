@@ -3,6 +3,8 @@ import {
   type FormEvent,
   type ReactNode,
   use,
+  useRef,
+  useState,
 } from "react";
 
 import { toast } from "react-toastify";
@@ -29,6 +31,15 @@ export default function CreateListItemModal({
 }: Props): ReactNode {
   const { create } = use(BoardContext);
 
+  const [titleError, setTitleError] = useState<string | null>(null);
+
+  const formRef = useRef<HTMLFormElement>(null);
+
+  const handleModalClose = (): void => {
+    setTitleError(null);
+    formRef.current?.reset();
+  };
+
   const handleCancelButtonClick = (): void => {
     ref.current?.close();
   };
@@ -40,11 +51,29 @@ export default function CreateListItemModal({
     const id = globalThis.crypto.randomUUID();
     const title = formData.get("title") as string;
 
-    create(listId, { id, title });
+    if (!validateTitle(title)) {
+      return;
+    }
+
+    create(listId, { id, title: title.trim() });
     toast.success("Item created successfully.");
 
-    e.currentTarget.reset();
     ref.current?.close();
+  };
+
+  const validateTitle = (title: unknown): boolean => {
+    if (typeof title !== "string") {
+      setTitleError("Title must be a string.");
+      return false;
+    }
+
+    if (title.trim().length === 0) {
+      setTitleError("Title cannot be empty.");
+      return false;
+    }
+
+    setTitleError(null);
+    return true;
   };
 
   return (
@@ -55,10 +84,11 @@ export default function CreateListItemModal({
         contentClassName,
       )}
       heading="Create a New Item"
+      onClose={handleModalClose}
       {...otherProps}
     >
-      <form onSubmit={handleFormSubmit}>
-        <TextInput label="Title" type="text" name="title" />
+      <form ref={formRef} onSubmit={handleFormSubmit}>
+        <TextInput label="Title" type="text" name="title" error={titleError} />
         <div className={styles.actions}>
           <Button type="reset" onClick={handleCancelButtonClick}>
             Cancel
