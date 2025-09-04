@@ -68,16 +68,22 @@
   --color-red-8: hsl(0, 93%, 54%);
   --color-red-9: hsl(0, 90%, 48%);
 
+  --color-backdrop: hsl(0, 0%, 0%, 40%);
+
   --color-surface-1: var(--color-gray-3);
   --color-surface-2: var(--color-gray-1);
   --color-surface-3: var(--color-white);
 
   --color-text: var(--color-gray-9);
 
+  --color-border: var(--color-gray-6);
+
   --color-primary-light: var(--color-blue-6);
   --color-primary: var(--color-blue-8);
   --color-primary-dark: var(--color-blue-9);
   --color-primary-contrast: var(--color-white);
+
+  --color-danger: var(--color-red-7);
 }
 
 .gray {

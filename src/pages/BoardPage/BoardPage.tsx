@@ -9,12 +9,12 @@ import styles from "./BoardPage.module.css";
 
 export default function BoardPage(): ReactNode {
   return (
-    <div className={styles["board-page"]}>
-      <BoardProvider>
-        <ActiveItemProvider>
+    <BoardProvider>
+      <ActiveItemProvider>
+        <div className={styles["board-page"]}>
           <Board />
-        </ActiveItemProvider>
-      </BoardProvider>
-    </div>
+        </div>
+      </ActiveItemProvider>
+    </BoardProvider>
   );
 }
