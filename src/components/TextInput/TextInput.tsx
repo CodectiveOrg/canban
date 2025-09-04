@@ -23,7 +23,7 @@ export default function TextInput({
     >
       <label htmlFor={id}>{label}</label>
       <input id={id} {...otherProps} />
-      <span className={styles.error}>{error}</span>
+      <span className={styles.error}>{error || "\u00A0"}</span>
     </div>
   );
 }
