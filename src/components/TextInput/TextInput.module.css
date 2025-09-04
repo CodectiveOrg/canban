@@ -1,0 +1,16 @@
+.text-input {
+  display: grid;
+
+  input {
+    border: 1px solid var(--color-border);
+
+    padding: 0.5rem;
+
+    border-radius: var(--border-radius-1);
+
+    &:focus {
+      outline: 2px solid var(--color-primary);
+      outline-offset: -2px;
+    }
+  }
+}
