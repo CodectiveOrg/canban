@@ -15,12 +15,14 @@ import styles from "./Modal.module.css";
 
 type Props = ComponentProps<"dialog"> & {
   ref: RefObject<HTMLDialogElement | null>;
+  contentClassName?: string;
   heading: string;
 };
 
 export default function Modal({
   ref,
   className,
+  contentClassName,
   heading,
   children,
   onClick,
@@ -53,7 +55,7 @@ export default function Modal({
           </IconButton>
         </div>
       </header>
-      <main>{children}</main>
+      <main className={contentClassName}>{children}</main>
     </dialog>
   );
 }

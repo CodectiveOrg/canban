@@ -1,8 +1,7 @@
 import { type ReactNode, useRef } from "react";
 
 import Button from "@/components/Button/Button.tsx";
-import Modal from "@/components/Modal/Modal.tsx";
-import TextInput from "@/components/TextInput/TextInput.tsx";
+import CreateListItemModal from "@/components/CreateListItemModal/CreateListItemModal.tsx";
 
 import ActiveItemProvider from "@/providers/ActiveItemProvider.tsx";
 import BoardProvider from "@/providers/BoardProvider.tsx";
@@ -20,16 +19,11 @@ export default function BoardPage(): ReactNode {
     <BoardProvider>
       <ActiveItemProvider>
         <div className={styles["board-page"]}>
-          <TextInput label="this is label" />
-          <TextInput label="this is label 2" />
-
           <Button color="primary" onClick={handleOpenButtonClick}>
             Open
           </Button>
 
-          <Modal ref={ref} heading="This is heading">
-            This is children
-          </Modal>
+          <CreateListItemModal ref={ref} />
 
           {/*<Board />*/}
         </div>
