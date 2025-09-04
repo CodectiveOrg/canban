@@ -74,6 +74,8 @@
 
   --color-text: var(--color-gray-9);
 
+  --color-border: var(--color-gray-6);
+
   --color-primary-light: var(--color-blue-6);
   --color-primary: var(--color-blue-8);
   --color-primary-dark: var(--color-blue-9);

@@ -1,0 +1,27 @@
+.modal {
+  inline-size: min(30rem, 100%);
+
+  margin: auto;
+
+  border: none;
+  border-radius: var(--border-radius-2);
+
+  > header,
+  > main {
+    padding: 0.5rem 1rem;
+  }
+
+  > header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+
+    border-block-end: 1px solid var(--color-border);
+
+    .heading {
+      font-size: var(--fz-500);
+      font-weight: 500;
+    }
+  }
+}
