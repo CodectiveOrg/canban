@@ -1,5 +1,6 @@
 import { type ReactNode, useRef } from "react";
 
+import Board from "@/components/Board/Board.tsx";
 import Button from "@/components/Button/Button.tsx";
 import CreateListItemModal from "@/components/CreateListItemModal/CreateListItemModal.tsx";
 
@@ -23,9 +24,9 @@ export default function BoardPage(): ReactNode {
             Open
           </Button>
 
-          <CreateListItemModal ref={ref} />
+          <CreateListItemModal ref={ref} listId="1" />
 
-          {/*<Board />*/}
+          <Board />
         </div>
       </ActiveItemProvider>
     </BoardProvider>
