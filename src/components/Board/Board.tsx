@@ -27,9 +27,9 @@ export default function Board(): ReactNode {
         </div>
       </div>
       <ul className={styles.lists}>
-        {lists.map((list) => (
+        {lists.map((list, listIndex) => (
           <li key={list.id}>
-            <List list={list} />
+            <List listIndex={listIndex} list={list} />
           </li>
         ))}
       </ul>

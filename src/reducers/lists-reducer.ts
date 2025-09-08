@@ -1,114 +1,36 @@
+import type { Draft } from "immer";
+
 import type { ListItemType } from "@/types/list-item.ts";
 import type { ListType } from "@/types/list.ts";
 
 export type ListsAction =
   | {
-      type: "created";
-      listId: string;
+      type: "item_created";
+      listIndex: number;
       item: ListItemType;
     }
   | {
-      type: "moved";
-      fromListId: string;
-      itemId: string;
-      toListId: string;
-    }
-  | {
-      type: "removed";
-      listId: string;
-      itemId: string;
+      type: "item_removed";
+      listIndex: number;
+      itemIndex: number;
     };
 
 export function listsReducer(
-  state: ListType[],
+  draft: Draft<ListType[]>,
   action: ListsAction,
-): ListType[] {
+): void {
   switch (action.type) {
-    case "created": {
-      const listIndex = state.findIndex((list) => list.id === action.listId);
-
-      if (listIndex === -1) {
-        console.error("Cannot find desired list.");
-        return state;
-      }
-
-      const clone = [...state];
-      const list = {
-        ...clone[listIndex],
-        items: [...clone[listIndex].items],
-      };
-
+    case "item_created": {
+      const list = draft[action.listIndex];
       list.items.push(action.item);
 
-      clone[listIndex] = list;
-      return clone;
+      return;
     }
-    case "moved": {
-      const fromListIndex = state.findIndex(
-        (list) => list.id === action.fromListId,
-      );
-      const toListIndex = state.findIndex(
-        (list) => list.id === action.toListId,
-      );
+    case "item_removed": {
+      const list = draft[action.listIndex];
+      list.items.splice(action.itemIndex, 1);
 
-      if (fromListIndex === -1 || toListIndex === -1) {
-        console.error("Cannot find desired list.");
-        return state;
-      }
-
-      const clone = [...state];
-      const fromList = {
-        ...clone[fromListIndex],
-        items: [...clone[fromListIndex].items],
-      };
-      const toList = {
-        ...clone[toListIndex],
-        items: [...clone[toListIndex].items],
-      };
-
-      const itemIndex = fromList.items.findIndex(
-        (item) => item.id === action.itemId,
-      );
-
-      if (itemIndex === -1) {
-        console.error("Cannot find desired item.");
-        return state;
-      }
-
-      const [item] = fromList.items.splice(itemIndex, 1);
-      toList.items.push(item);
-
-      clone[fromListIndex] = fromList;
-      clone[toListIndex] = toList;
-      return clone;
-    }
-    case "removed": {
-      const listIndex = state.findIndex((list) => list.id === action.listId);
-
-      if (listIndex === -1) {
-        console.error("Cannot find desired list.");
-        return state;
-      }
-
-      const clone = [...state];
-      const list = {
-        ...clone[listIndex],
-        items: [...clone[listIndex].items],
-      };
-
-      const itemIndex = list.items.findIndex(
-        (item) => item.id === action.itemId,
-      );
-
-      if (itemIndex === -1) {
-        console.error("Cannot find desired item.");
-        return state;
-      }
-
-      list.items.splice(itemIndex, 1);
-
-      clone[listIndex] = list;
-      return clone;
+      return;
     }
     default: {
       throw new Error("Unknown action.");

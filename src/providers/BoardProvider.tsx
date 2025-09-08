@@ -1,9 +1,6 @@
-import {
-  type PropsWithChildren,
-  type ReactNode,
-  useEffect,
-  useReducer,
-} from "react";
+import { type PropsWithChildren, type ReactNode, useEffect } from "react";
+
+import { useImmerReducer } from "use-immer";
 
 import { listsData } from "@/data/lists-data.ts";
 
@@ -29,7 +26,7 @@ function load(): ListType[] {
 type Props = PropsWithChildren;
 
 export default function BoardProvider({ children }: Props): ReactNode {
-  const [lists, dispatchLists] = useReducer(listsReducer, load());
+  const [lists, dispatchLists] = useImmerReducer(listsReducer, load());
 
   useEffect(() => {
     save(lists);
