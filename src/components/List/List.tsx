@@ -1,5 +1,8 @@
 import { type ReactNode, useRef } from "react";
 
+import { useDroppable } from "@dnd-kit/core";
+import { SortableContext } from "@dnd-kit/sortable";
+
 import CreateListItemModal from "@/components/CreateListItemModal/CreateListItemModal.tsx";
 import IconButton from "@/components/IconButton/IconButton.tsx";
 import ListItem from "@/components/ListItem/ListItem.tsx";
@@ -17,6 +20,11 @@ type Props = {
 };
 
 export default function List({ listIndex, list }: Props): ReactNode {
+  const { setNodeRef } = useDroppable({
+    id: list.id,
+    data: { isList: true, listIndex, list },
+  });
+
   const modalRef = useRef<HTMLDialogElement>(null);
 
   const handleClickButtonClick = (): void => {
@@ -36,13 +44,19 @@ export default function List({ listIndex, list }: Props): ReactNode {
           </IconButton>
         </div>
       </div>
-      <ul className={styles.items}>
-        {list.items.map((item, itemIndex) => (
-          <li key={item.id}>
-            <ListItem listIndex={listIndex} itemIndex={itemIndex} item={item} />
-          </li>
-        ))}
-      </ul>
+      <SortableContext id={list.id} items={list.items.map((item) => item.id)}>
+        <ul ref={setNodeRef} className={styles.items}>
+          {list.items.map((item, itemIndex) => (
+            <li key={item.id}>
+              <ListItem
+                listIndex={listIndex}
+                itemIndex={itemIndex}
+                item={item}
+              />
+            </li>
+          ))}
+        </ul>
+      </SortableContext>
       <CreateListItemModal ref={modalRef} listIndex={listIndex} />
     </div>
   );
