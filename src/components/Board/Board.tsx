@@ -1,5 +1,7 @@
 import { type ReactNode, use } from "react";
 
+import { SortableContext } from "@dnd-kit/sortable";
+
 import IconButton from "@/components/IconButton/IconButton.tsx";
 import List from "@/components/List/List.tsx";
 
@@ -26,13 +28,15 @@ export default function Board(): ReactNode {
           </IconButton>
         </div>
       </div>
-      <ul className={styles.lists}>
-        {lists.map((list, listIndex) => (
-          <li key={list.id}>
-            <List listIndex={listIndex} list={list} />
-          </li>
-        ))}
-      </ul>
+      <SortableContext id="board" items={lists.map((list) => list.id)}>
+        <ul className={styles.lists}>
+          {lists.map((list, listIndex) => (
+            <li key={list.id}>
+              <List listIndex={listIndex} list={list} />
+            </li>
+          ))}
+        </ul>
+      </SortableContext>
     </div>
   );
 }
