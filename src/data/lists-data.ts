@@ -1,24 +1,38 @@
-export const listsData = [
+import type { ListType } from "@/types/list.ts";
+
+export const listsData: ListType[] = [
   {
-    id: "1",
+    id: "list-1",
     title: "🔜 To Do",
     items: [
-      { id: "1", title: "Setup Backend Project" },
-      { id: "2", title: "Find a Good Name for the Project" },
-      { id: "3", title: "Implement Landing Page" },
+      { id: "item-1", title: "Implement Landing Page" },
+      { id: "item-2", title: "Implement Search Page" },
+      { id: "item-3", title: "Navbar Component" },
+      { id: "item-4", title: "Toaster Provider" },
+      { id: "item-5", title: "Carousel Component" },
+      { id: "item-6", title: "User API" },
     ],
   },
   {
-    id: "2",
+    id: "list-2",
     title: "🔨 Doing",
     items: [
-      { id: "4", title: "Setup Frontend Project" },
-      { id: "5", title: "Design Landing Page" },
+      { id: "item-7", title: "Root Layout" },
+      { id: "item-8", title: "Icon Component" },
+      { id: "item-9", title: "Authentication" },
+      { id: "item-10", title: "Design Landing Page" },
     ],
   },
   {
-    id: "3",
+    id: "list-3",
     title: "🎉 Done",
-    items: [],
+    items: [
+      { id: "item-11", title: "Find a Good Name for the Project" },
+      { id: "item-12", title: "Setup Frontend Project" },
+      { id: "item-13", title: "Setup Backend Project" },
+      { id: "item-14", title: "Typography" },
+      { id: "item-15", title: "Colors" },
+      { id: "item-16", title: "Setup API Connection" },
+    ],
   },
 ];
