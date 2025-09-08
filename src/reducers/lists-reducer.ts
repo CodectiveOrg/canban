@@ -1,7 +1,7 @@
 import type { ListItemType } from "@/types/list-item.ts";
 import type { ListType } from "@/types/list.ts";
 
-type Action =
+export type ListsAction =
   | {
       type: "created";
       listId: string;
@@ -19,7 +19,10 @@ type Action =
       itemId: string;
     };
 
-export function listsReducer(state: ListType[], action: Action): ListType[] {
+export function listsReducer(
+  state: ListType[],
+  action: ListsAction,
+): ListType[] {
   switch (action.type) {
     case "created": {
       const listIndex = state.findIndex((list) => list.id === action.listId);

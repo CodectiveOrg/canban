@@ -30,7 +30,7 @@ export default function CreateListItemModal({
   listId,
   ...otherProps
 }: Props): ReactNode {
-  const { create } = use(BoardContext);
+  const { dispatchLists } = use(BoardContext);
 
   const [title, setTitle] = useState<string>("");
   const [titleError, setTitleError] = useState<string | null>(null);
@@ -63,7 +63,7 @@ export default function CreateListItemModal({
     }
 
     const id = globalThis.crypto.randomUUID();
-    create(listId, { id, title });
+    dispatchLists({ type: "created", listId, item: { id, title } });
     toast.success("Item created successfully.");
 
     ref.current?.close();

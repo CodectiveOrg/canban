@@ -15,13 +15,18 @@ import MingcuteEdit2Line from "@/icons/MingcuteEdit2Line.tsx";
 import styles from "./Board.module.css";
 
 export default function Board(): ReactNode {
-  const { lists, move } = use(BoardContext);
+  const { lists, dispatchLists } = use(BoardContext);
 
   const { activeListId, activeItemId, deactivate } = use(ActiveItemContext);
 
   const handleMoveButtonClick = (toListId: string): void => {
     if (activeListId && activeItemId) {
-      move(activeListId, activeItemId, toListId);
+      dispatchLists({
+        type: "moved",
+        fromListId: activeListId,
+        itemId: activeItemId,
+        toListId,
+      });
       toast.success("Item moved successfully.");
     }
 

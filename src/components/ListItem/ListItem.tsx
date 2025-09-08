@@ -21,7 +21,7 @@ type Props = {
 };
 
 export default function ListItem({ listId, item }: Props): ReactNode {
-  const { remove } = use(BoardContext);
+  const { dispatchLists } = use(BoardContext);
   const { activeItemId, activate, deactivate } = use(ActiveItemContext);
 
   const handleListItemClick = (): void => {
@@ -35,7 +35,7 @@ export default function ListItem({ listId, item }: Props): ReactNode {
   const handleRemoveButtonClick = (e: MouseEvent<HTMLButtonElement>): void => {
     e.stopPropagation();
 
-    remove(listId, item.id);
+    dispatchLists({ type: "removed", listId, itemId: item.id });
     toast.success("Item removed successfully.");
 
     deactivate();
