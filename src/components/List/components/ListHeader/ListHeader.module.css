@@ -1,0 +1,17 @@
+.list-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+
+  padding: 1rem 1rem 0.5rem;
+
+  .drag-handle {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+
+    cursor: default;
+    user-select: none;
+  }
+}

@@ -21,16 +21,16 @@ import { BoardContext } from "@/context/board-context.ts";
 import styles from "./CreateListItemModal.module.css";
 
 type Props = Omit<ComponentProps<typeof Modal>, "heading" | "children"> & {
-  listId: string;
+  listIndex: number;
 };
 
 export default function CreateListItemModal({
   ref,
   contentClassName,
-  listId,
+  listIndex,
   ...otherProps
 }: Props): ReactNode {
-  const { create } = use(BoardContext);
+  const { dispatchLists } = use(BoardContext);
 
   const [title, setTitle] = useState<string>("");
   const [titleError, setTitleError] = useState<string | null>(null);
@@ -63,7 +63,7 @@ export default function CreateListItemModal({
     }
 
     const id = globalThis.crypto.randomUUID();
-    create(listId, { id, title });
+    dispatchLists({ type: "item_created", listIndex, item: { id, title } });
     toast.success("Item created successfully.");
 
     ref.current?.close();

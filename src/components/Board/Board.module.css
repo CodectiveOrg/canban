@@ -22,17 +22,6 @@
       font-size: var(--fz-500);
       font-weight: 700;
     }
-
-    .actions {
-      display: flex;
-      align-items: center;
-
-      .spacer {
-        display: flex;
-        align-items: center;
-        gap: 1rem;
-      }
-    }
   }
 
   .lists {

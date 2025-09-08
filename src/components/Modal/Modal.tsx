@@ -31,9 +31,9 @@ export default function Modal({
   const handleDialogClick = (e: MouseEvent<HTMLDialogElement>): void => {
     if (e.target === e.currentTarget) {
       ref.current?.close();
+    } else {
+      onClick?.(e);
     }
-
-    onClick?.(e);
   };
 
   const handleCloseButtonClick = (): void => {

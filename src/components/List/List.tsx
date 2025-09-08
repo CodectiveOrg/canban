@@ -1,48 +1,56 @@
-import { type ReactNode, useRef } from "react";
+import { type ReactNode } from "react";
 
-import CreateListItemModal from "@/components/CreateListItemModal/CreateListItemModal.tsx";
-import IconButton from "@/components/IconButton/IconButton.tsx";
-import ListItem from "@/components/ListItem/ListItem.tsx";
+import { useSortable } from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
 
-import MingcuteAddLine from "@/icons/MingcuteAddLine.tsx";
-import MingcuteMore1Line from "@/icons/MingcuteMore1Line.tsx";
+import ListHeader from "@/components/List/components/ListHeader/ListHeader.tsx";
+import ListItems from "@/components/List/components/ListItems/ListItems.tsx";
 
 import type { ListType } from "@/types/list.ts";
 
 import styles from "./List.module.css";
 
 type Props = {
+  presentational?: boolean;
+  listIndex: number;
   list: ListType;
 };
 
-export default function List({ list }: Props): ReactNode {
-  const ref = useRef<HTMLDialogElement>(null);
-
-  const handleOpenButtonClick = (): void => {
-    ref.current?.showModal();
-  };
+export default function List({
+  presentational,
+  listIndex,
+  list,
+}: Props): ReactNode {
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({ id: list.id, data: { isList: true, listIndex, list } });
 
   return (
-    <div className={styles.list}>
-      <div className={styles.header}>
-        <div className={styles.title}>{list.title}</div>
-        <div className={styles.actions}>
-          <IconButton onClick={handleOpenButtonClick}>
-            <MingcuteAddLine />
-          </IconButton>
-          <IconButton>
-            <MingcuteMore1Line />
-          </IconButton>
-        </div>
-      </div>
-      <ul className={styles.items}>
-        {list.items.map((item) => (
-          <li key={item.id}>
-            <ListItem listId={list.id} item={item} />
-          </li>
-        ))}
-      </ul>
-      <CreateListItemModal ref={ref} listId={list.id} />
+    <div
+      ref={setNodeRef}
+      className={styles.list}
+      style={{
+        opacity: isDragging ? "0.5" : undefined,
+        transform: CSS.Translate.toString(transform),
+        transition,
+      }}
+      {...attributes}
+    >
+      <ListHeader
+        title={list.title}
+        listIndex={listIndex}
+        listeners={listeners}
+      />
+      <ListItems
+        presentational={presentational}
+        listIndex={listIndex}
+        list={list}
+      />
     </div>
   );
 }

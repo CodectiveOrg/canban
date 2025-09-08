@@ -1,12 +1,14 @@
 import { type MouseEvent, type ReactNode, use } from "react";
 
+import { useSortable } from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
+
 import { toast } from "react-toastify";
 
 import clsx from "clsx";
 
 import IconButton from "@/components/IconButton/IconButton.tsx";
 
-import { ActiveItemContext } from "@/context/active-item-context.ts";
 import { BoardContext } from "@/context/board-context.ts";
 
 import MingcuteDelete2Line from "@/icons/MingcuteDelete2Line.tsx";
@@ -16,41 +18,59 @@ import type { ListItemType } from "@/types/list-item.ts";
 import styles from "./ListItem.module.css";
 
 type Props = {
-  listId: string;
+  presentational?: boolean;
+  listIndex: number;
+  itemIndex: number;
   item: ListItemType;
 };
 
-export default function ListItem({ listId, item }: Props): ReactNode {
-  const { remove } = use(BoardContext);
-  const { activeItemId, activate, deactivate } = use(ActiveItemContext);
+export default function ListItem({
+  presentational,
+  listIndex,
+  itemIndex,
+  item,
+}: Props): ReactNode {
+  const { dispatchLists } = use(BoardContext);
 
-  const handleListItemClick = (): void => {
-    if (item.id === activeItemId) {
-      deactivate();
-    } else {
-      activate(listId, item.id);
-    }
-  };
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+    over,
+  } = useSortable({
+    id: item.id,
+    data: { isList: false, listIndex, itemIndex, item },
+  });
+
+  const overListIndex = over?.data.current?.listIndex;
 
   const handleRemoveButtonClick = (e: MouseEvent<HTMLButtonElement>): void => {
     e.stopPropagation();
 
-    remove(listId, item.id);
+    dispatchLists({ type: "item_removed", listIndex, itemIndex });
     toast.success("Item removed successfully.");
-
-    deactivate();
   };
 
   return (
     <div
+      ref={setNodeRef}
       className={clsx(
         styles["list-item"],
-        item.id === activeItemId && styles.active,
+        presentational && styles.presentational,
       )}
-      onClick={handleListItemClick}
+      style={{
+        opacity: isDragging ? "0.5" : undefined,
+        transform: CSS.Translate.toString(transform),
+        transition: listIndex === overListIndex ? transition : undefined,
+      }}
+      {...listeners}
+      {...attributes}
     >
       {item.title}
-      <IconButton onClick={handleRemoveButtonClick}>
+      <IconButton onPointerDown={handleRemoveButtonClick}>
         <MingcuteDelete2Line />
       </IconButton>
     </div>
