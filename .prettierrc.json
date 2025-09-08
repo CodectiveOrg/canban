@@ -5,6 +5,7 @@
     "^(react|react-dom)(/(.*))?$",
     "^react-router(/(.*))?$",
     "^react-error-boundary(/(.*))?$",
+    "^(immer|use-immer)(/(.*))?$",
     "^@tanstack(/(.*))?$",
     "^react-toastify(/(.*))?$",
     "^clsx(/(.*))?$",
