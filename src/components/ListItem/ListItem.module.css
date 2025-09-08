@@ -12,13 +12,18 @@
   border: 1px solid transparent;
   border-radius: var(--border-radius-2);
 
+  cursor: default;
+  user-select: none;
+
   button {
     opacity: 0;
   }
 
-  &:hover {
-    button {
-      opacity: 1;
+  &:not(.presentational) {
+    &:hover {
+      button {
+        opacity: 1;
+      }
     }
   }
 }

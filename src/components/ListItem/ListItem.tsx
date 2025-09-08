@@ -5,6 +5,8 @@ import { CSS } from "@dnd-kit/utilities";
 
 import { toast } from "react-toastify";
 
+import clsx from "clsx";
+
 import IconButton from "@/components/IconButton/IconButton.tsx";
 
 import { BoardContext } from "@/context/board-context.ts";
@@ -16,23 +18,31 @@ import type { ListItemType } from "@/types/list-item.ts";
 import styles from "./ListItem.module.css";
 
 type Props = {
+  presentational?: boolean;
   listIndex: number;
   itemIndex: number;
   item: ListItemType;
 };
 
 export default function ListItem({
+  presentational,
   listIndex,
   itemIndex,
   item,
 }: Props): ReactNode {
   const { dispatchLists } = use(BoardContext);
 
-  const { attributes, listeners, setNodeRef, transform, transition } =
-    useSortable({
-      id: item.id,
-      data: { isList: false, listIndex, itemIndex, item },
-    });
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({
+    id: item.id,
+    data: { isList: false, listIndex, itemIndex, item },
+  });
 
   const handleRemoveButtonClick = (e: MouseEvent<HTMLButtonElement>): void => {
     e.stopPropagation();
@@ -44,8 +54,12 @@ export default function ListItem({
   return (
     <div
       ref={setNodeRef}
-      className={styles["list-item"]}
+      className={clsx(
+        styles["list-item"],
+        presentational && styles.presentational,
+      )}
       style={{
+        opacity: isDragging ? "0.5" : undefined,
         transform: CSS.Translate.toString(transform),
         transition,
       }}
