@@ -21,8 +21,4 @@
       opacity: 1;
     }
   }
-
-  &.active {
-    border-color: var(--color-primary);
-  }
 }
