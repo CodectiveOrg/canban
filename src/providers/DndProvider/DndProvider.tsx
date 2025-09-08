@@ -15,6 +15,8 @@ import ListItem from "@/components/ListItem/ListItem.tsx";
 
 import { BoardContext } from "@/context/board-context.ts";
 
+import { detectCollision } from "@/providers/DndProvider/utils/collision-detection.ts";
+
 import type { DraggableData } from "@/types/draggable-data.ts";
 
 type Props = PropsWithChildren;
@@ -62,6 +64,7 @@ export default function DndProvider({ children }: Props): ReactNode {
   return (
     <DndContext
       sensors={sensors}
+      collisionDetection={detectCollision}
       onDragStart={handleDragStart}
       onDragOver={handleDragOver}
       onDragEnd={handleDragEnd}
