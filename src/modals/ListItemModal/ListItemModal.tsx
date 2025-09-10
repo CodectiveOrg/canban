@@ -8,6 +8,7 @@ import {
 
 import { toast } from "react-toastify";
 
+import TextArea from "@/components/TextArea/TextArea.tsx";
 import TextInput from "@/components/TextInput/TextInput.tsx";
 
 import { BoardContext } from "@/context/board-context.ts";
@@ -40,6 +41,8 @@ export default function ListItemModal({
     const formData = new FormData(e.currentTarget);
     const values: Values = {
       title: formData.get("title") as string,
+      description: formData.get("description") as string,
+      dueDate: formData.get("dueDate") as string,
     };
 
     if (!validateTitle(values.title)) {
@@ -76,6 +79,8 @@ export default function ListItemModal({
       onSubmit={handleFormSubmit}
     >
       <TextInput label="Title" type="text" name="title" error={titleError} />
+      <TextArea label="Description" name="description" />
+      <TextInput label="Due Date" type="date" name="dueDate" />
     </FormModal>
   );
 }
