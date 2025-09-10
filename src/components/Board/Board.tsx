@@ -1,42 +1,15 @@
-import { type ReactNode, use } from "react";
+import { type ReactNode } from "react";
 
-import { SortableContext } from "@dnd-kit/sortable";
-
-import IconButton from "@/components/IconButton/IconButton.tsx";
-import List from "@/components/List/List.tsx";
-
-import { BoardContext } from "@/context/board-context.ts";
-
-import MingcuteAddLine from "@/icons/MingcuteAddLine.tsx";
-import MingcuteEdit2Line from "@/icons/MingcuteEdit2Line.tsx";
+import BoardLists from "@/components/Board/components/BoardLists/BoardLists.tsx";
+import BoardToolbar from "@/components/Board/components/BoardToolbar/BoardToolbar.tsx";
 
 import styles from "./Board.module.css";
 
 export default function Board(): ReactNode {
-  const { lists } = use(BoardContext);
-
   return (
     <div className={styles.board}>
-      <div className={styles.toolbar}>
-        <div className={styles.title}>Board Title</div>
-        <div className={styles.actions}>
-          <IconButton>
-            <MingcuteEdit2Line />
-          </IconButton>
-          <IconButton>
-            <MingcuteAddLine />
-          </IconButton>
-        </div>
-      </div>
-      <SortableContext id="board" items={lists.map((list) => list.id)}>
-        <ul className={styles.lists}>
-          {lists.map((list, listIndex) => (
-            <li key={list.id}>
-              <List listIndex={listIndex} list={list} />
-            </li>
-          ))}
-        </ul>
-      </SortableContext>
+      <BoardToolbar />
+      <BoardLists />
     </div>
   );
 }
