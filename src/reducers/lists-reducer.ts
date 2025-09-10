@@ -30,6 +30,12 @@ export type ListsAction =
       item: ListItemType;
     }
   | {
+      type: "item_edited";
+      listIndex: number;
+      itemIndex: number;
+      item: Partial<ListItemType>;
+    }
+  | {
       type: "item_removed";
       listIndex: number;
       itemIndex: number;
@@ -85,6 +91,16 @@ export function listsReducer(
     case "item_created": {
       const list = draft[action.listIndex];
       list.items.push(action.item);
+
+      return;
+    }
+    case "item_edited": {
+      const list = draft[action.listIndex];
+
+      list.items[action.itemIndex] = {
+        ...list.items[action.itemIndex],
+        ...action.item,
+      };
 
       return;
     }
