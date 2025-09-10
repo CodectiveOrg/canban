@@ -11,6 +11,11 @@ export type ListsAction =
       list: ListType;
     }
   | {
+      type: "list_edited";
+      listIndex: number;
+      list: Partial<ListType>;
+    }
+  | {
       type: "list_removed";
       listIndex: number;
     }
@@ -50,6 +55,11 @@ export function listsReducer(
   switch (action.type) {
     case "list_created": {
       draft.push(action.list);
+
+      return;
+    }
+    case "list_edited": {
+      draft[action.listIndex] = { ...draft[action.listIndex], ...action.list };
 
       return;
     }

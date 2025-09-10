@@ -11,17 +11,19 @@ import MingcuteEdit2Line from "@/icons/MingcuteEdit2Line.tsx";
 import ListItemModal from "@/modals/ListItemModal/ListItemModal.tsx";
 import ListModal from "@/modals/ListModal/ListModal.tsx";
 
+import type { ListType } from "@/types/list.ts";
+
 import styles from "./ListHeader.module.css";
 
 type Props = {
-  title: string;
   listIndex: number;
+  list: ListType;
   listeners?: SyntheticListenerMap;
 };
 
 export default function ListHeader({
-  title,
   listIndex,
+  list,
   listeners,
 }: Props): ReactNode {
   const listModalRef = useRef<HTMLDialogElement>(null);
@@ -39,7 +41,7 @@ export default function ListHeader({
     <div className={styles["list-header"]}>
       <div className={styles["drag-handle"]} {...listeners}>
         <MingcuteDotsLine />
-        <div className={styles.title}>{title}</div>
+        <div className={styles.title}>{list.title}</div>
       </div>
       <div className={styles.actions}>
         <IconButton onClick={handleEditListButtonClick}>
@@ -49,7 +51,11 @@ export default function ListHeader({
           <MingcuteAddLine />
         </IconButton>
       </div>
-      <ListModal modalRef={listModalRef} listIndex={listIndex} />
+      <ListModal
+        modalRef={listModalRef}
+        listIndex={listIndex}
+        defaultValues={list}
+      />
       <ListItemModal modalRef={listItemModalRef} listIndex={listIndex} />
     </div>
   );
