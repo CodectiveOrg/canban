@@ -2,9 +2,9 @@ import { type PropsWithChildren, type ReactNode, useEffect } from "react";
 
 import { useImmerReducer } from "use-immer";
 
-import { listsData } from "@/data/lists-data.ts";
-
 import { BoardContext } from "@/context/board-context.ts";
+
+import { listsData } from "@/data/lists-data.ts";
 
 import { listsReducer } from "@/reducers/lists-reducer.ts";
 

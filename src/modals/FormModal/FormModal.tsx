@@ -5,9 +5,9 @@ import {
   useRef,
 } from "react";
 
-import Modal from "@/modals/Modal/Modal.tsx";
-
 import Button from "@/components/Button/Button.tsx";
+
+import Modal from "@/modals/Modal/Modal.tsx";
 
 import styles from "./FormModal.module.css";
 

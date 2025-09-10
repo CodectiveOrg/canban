@@ -2,13 +2,13 @@ import { type ReactNode, useRef } from "react";
 
 import type { SyntheticListenerMap } from "@dnd-kit/core/dist/hooks/utilities";
 
-import ListItemModal from "@/modals/ListItemModal/ListItemModal.tsx";
-
 import IconButton from "@/components/IconButton/IconButton.tsx";
 
 import MingcuteAddLine from "@/icons/MingcuteAddLine.tsx";
 import MingcuteDotsLine from "@/icons/MingcuteDotsLine.tsx";
 import MingcuteMore1Line from "@/icons/MingcuteMore1Line.tsx";
+
+import ListItemModal from "@/modals/ListItemModal/ListItemModal.tsx";
 
 import styles from "./ListHeader.module.css";
 

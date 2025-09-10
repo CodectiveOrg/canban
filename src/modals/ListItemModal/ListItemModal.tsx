@@ -8,11 +8,11 @@ import {
 
 import { toast } from "react-toastify";
 
-import FormModal from "@/modals/FormModal/FormModal.tsx";
-
 import TextInput from "@/components/TextInput/TextInput.tsx";
 
 import { BoardContext } from "@/context/board-context.ts";
+
+import FormModal from "@/modals/FormModal/FormModal.tsx";
 
 import type { ListItemType } from "@/types/list-item.ts";
 
