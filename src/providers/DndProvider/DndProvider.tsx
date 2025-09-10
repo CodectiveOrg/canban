@@ -14,7 +14,7 @@ import {
 import List from "@/components/List/List.tsx";
 import ListItem from "@/components/ListItem/ListItem.tsx";
 
-import { BoardContext } from "@/context/board-context.ts";
+import { ListsContext } from "@/context/lists-context.ts";
 
 import { detectCollision } from "@/providers/DndProvider/utils/collision-detection.ts";
 
@@ -23,7 +23,7 @@ import type { DraggableData } from "@/types/draggable-data.ts";
 type Props = PropsWithChildren;
 
 export default function DndProvider({ children }: Props): ReactNode {
-  const { dispatchLists } = use(BoardContext);
+  const { dispatchLists } = use(ListsContext);
 
   const sensors = useSensors(useSensor(PointerSensor));
 

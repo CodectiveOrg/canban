@@ -12,7 +12,7 @@ import Button from "@/components/Button/Button.tsx";
 import TextArea from "@/components/TextArea/TextArea.tsx";
 import TextInput from "@/components/TextInput/TextInput.tsx";
 
-import { BoardContext } from "@/context/board-context.ts";
+import { ListsContext } from "@/context/lists-context.ts";
 
 import FormModal from "@/modals/FormModal/FormModal.tsx";
 
@@ -32,7 +32,7 @@ export default function ListItemModal({
   itemIndex,
   defaultValues,
 }: Props): ReactNode {
-  const { dispatchLists } = use(BoardContext);
+  const { dispatchLists } = use(ListsContext);
 
   const [titleError, setTitleError] = useState<string | null>(null);
 
