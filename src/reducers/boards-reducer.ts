@@ -36,10 +36,7 @@ export function boardsReducer(
         return;
       }
 
-      draft[boardIndex] = {
-        ...draft[boardIndex],
-        ...action.board,
-      };
+      draft[boardIndex] = { ...draft[boardIndex], ...action.board };
 
       return;
     }

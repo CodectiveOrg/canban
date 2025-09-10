@@ -21,7 +21,7 @@ type Props = {
 export default function BoardCard({ board }: Props): ReactNode {
   const modalRef = useRef<HTMLDialogElement>(null);
 
-  const handleCreateButtonClick = (): void => {
+  const handleEditButtonClick = (): void => {
     modalRef.current?.showModal();
   };
 
@@ -33,7 +33,7 @@ export default function BoardCard({ board }: Props): ReactNode {
           <Link className={styles.title} to={`/board/${board.id}`}>
             {board.title}
           </Link>
-          <IconButton onClick={handleCreateButtonClick}>
+          <IconButton onClick={handleEditButtonClick}>
             <MingcuteEdit2Line />
           </IconButton>
         </div>
