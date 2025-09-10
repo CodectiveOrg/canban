@@ -36,6 +36,13 @@
 
       --background-color-hover: var(--color-primary-dark);
     }
+
+    &.danger {
+      --background-color: var(--color-danger);
+      --color: var(--color-danger-contrast);
+
+      --background-color-hover: var(--color-danger-dark);
+    }
   }
 
   &.outlined {
@@ -64,6 +71,43 @@
       --border-color: var(--color-primary);
 
       --background-color-hover: var(--color-blue-0);
+    }
+
+    &.danger {
+      --background-color: var(--color-white);
+      --color: var(--color-danger);
+      --border-color: var(--color-danger);
+
+      --background-color-hover: var(--color-red-0);
+    }
+  }
+
+  &.text {
+    background-color: transparent;
+    color: var(--color);
+
+    &:hover {
+      background-color: var(--background-color-hover);
+
+      transition-duration: 250ms;
+    }
+
+    &.default {
+      --color: var(--color-gray-9);
+
+      --background-color-hover: var(--color-gray-1);
+    }
+
+    &.primary {
+      --color: var(--color-primary);
+
+      --background-color-hover: var(--color-blue-1);
+    }
+
+    &.danger {
+      --color: var(--color-danger);
+
+      --background-color-hover: var(--color-red-1);
     }
   }
 }

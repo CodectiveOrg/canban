@@ -83,7 +83,10 @@
   --color-primary-dark: var(--color-blue-9);
   --color-primary-contrast: var(--color-white);
 
+  --color-danger-light: var(--color-red-6);
   --color-danger: var(--color-red-7);
+  --color-danger-dark: var(--color-red-9);
+  --color-danger-contrast: var(--color-white);
 }
 
 .gray {
