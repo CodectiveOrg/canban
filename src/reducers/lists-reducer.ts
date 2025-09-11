@@ -7,9 +7,33 @@ import type { ListType } from "@/types/list.ts";
 
 export type ListsAction =
   | {
+      type: "list_created";
+      list: ListType;
+    }
+  | {
+      type: "list_edited";
+      listIndex: number;
+      list: Partial<ListType>;
+    }
+  | {
+      type: "list_removed";
+      listIndex: number;
+    }
+  | {
+      type: "list_dragged_end";
+      activeListIndex: number;
+      overListIndex: number;
+    }
+  | {
       type: "item_created";
       listIndex: number;
       item: ListItemType;
+    }
+  | {
+      type: "item_edited";
+      listIndex: number;
+      itemIndex: number;
+      item: Partial<ListItemType>;
     }
   | {
       type: "item_removed";
@@ -28,11 +52,6 @@ export type ListsAction =
       activeListIndex: number;
       activeItemIndex: number;
       overItemIndex: number;
-    }
-  | {
-      type: "list_dragged_end";
-      activeListIndex: number;
-      overListIndex: number;
     };
 
 export function listsReducer(
@@ -40,9 +59,48 @@ export function listsReducer(
   action: ListsAction,
 ): void {
   switch (action.type) {
+    case "list_created": {
+      draft.push(action.list);
+
+      return;
+    }
+    case "list_edited": {
+      draft[action.listIndex] = { ...draft[action.listIndex], ...action.list };
+
+      return;
+    }
+    case "list_removed": {
+      draft.splice(action.listIndex, 1);
+
+      return;
+    }
+    case "list_dragged_end": {
+      const { activeListIndex, overListIndex } = action;
+
+      if (activeListIndex === overListIndex) {
+        return;
+      }
+
+      const activeList = draft[activeListIndex];
+
+      draft.splice(activeListIndex, 1);
+      draft.splice(overListIndex, 0, activeList);
+
+      return;
+    }
     case "item_created": {
       const list = draft[action.listIndex];
       list.items.push(action.item);
+
+      return;
+    }
+    case "item_edited": {
+      const list = draft[action.listIndex];
+
+      list.items[action.itemIndex] = {
+        ...list.items[action.itemIndex],
+        ...action.item,
+      };
 
       return;
     }
@@ -85,20 +143,6 @@ export function listsReducer(
         activeItemIndex,
         overItemIndex,
       );
-
-      return;
-    }
-    case "list_dragged_end": {
-      const { activeListIndex, overListIndex } = action;
-
-      if (activeListIndex === overListIndex) {
-        return;
-      }
-
-      const activeList = draft[activeListIndex];
-
-      draft.splice(activeListIndex, 1);
-      draft.splice(overListIndex, 0, activeList);
 
       return;
     }

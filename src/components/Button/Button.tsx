@@ -5,8 +5,8 @@ import clsx from "clsx";
 import styles from "./Button.module.css";
 
 type Props = ComponentProps<"button"> & {
-  variant?: "solid" | "outlined";
-  color?: "default" | "primary";
+  variant?: "solid" | "outlined" | "text";
+  color?: "default" | "primary" | "danger";
 };
 
 export default function Button({

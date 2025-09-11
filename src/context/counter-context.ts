@@ -7,9 +7,4 @@ type ContextValue = {
   reset: () => void;
 };
 
-export const CounterContext = createContext<ContextValue>({
-  count: 0,
-  increment: () => {},
-  decrement: () => {},
-  reset: () => {},
-});
+export const CounterContext = createContext<ContextValue>({} as ContextValue);

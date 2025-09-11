@@ -41,11 +41,7 @@ export default function List({
       }}
       {...attributes}
     >
-      <ListHeader
-        title={list.title}
-        listIndex={listIndex}
-        listeners={listeners}
-      />
+      <ListHeader listIndex={listIndex} list={list} listeners={listeners} />
       <ListItems
         presentational={presentational}
         listIndex={listIndex}
