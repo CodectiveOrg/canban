@@ -24,6 +24,7 @@
     "^@/pages",
     "^@/providers",
     "^@/reducers",
+    "^@/schemas",
     "^@/stores",
     "^@/types",
     "^@/utils",
