@@ -10,6 +10,8 @@ import { useNavigate } from "react-router";
 
 import { toast } from "react-toastify";
 
+import { z } from "zod";
+
 import Button from "@/components/Button/Button.tsx";
 import ColorInput from "@/components/ColorInput/ColorInput.tsx";
 import TextArea from "@/components/TextArea/TextArea.tsx";
@@ -19,9 +21,12 @@ import { BoardsContext } from "@/context/boards-context.ts";
 
 import FormModal from "@/modals/FormModal/FormModal.tsx";
 
+import { BoardSchema } from "@/schemas/board-schema.ts";
+
 import type { BoardColor, BoardType } from "@/types/board.ts";
 
 type Values = Omit<BoardType, "id" | "lists">;
+type Errors = { [key in keyof Values]?: string[] };
 
 type Props = Pick<ComponentProps<typeof FormModal>, "modalRef"> & {
   boardId?: string;
@@ -37,7 +42,7 @@ export default function BoardModal({
 
   const navigate = useNavigate();
 
-  const [titleError, setTitleError] = useState<string | null>(null);
+  const [errors, setErrors] = useState<Errors>({});
 
   const handleRemoveButtonClick = (): void => {
     if (boardId === undefined) {
@@ -53,7 +58,7 @@ export default function BoardModal({
   };
 
   const handleFormReset = (): void => {
-    setTitleError(null);
+    setErrors({});
   };
 
   const handleFormSubmit = (e: FormEvent<HTMLFormElement>): void => {
@@ -66,38 +71,25 @@ export default function BoardModal({
       color: formData.get("color") as BoardColor,
     };
 
-    if (!validateTitle(values.title)) {
+    const { data, error } = BoardSchema.safeParse(values);
+    if (error) {
+      setErrors(z.flattenError(error).fieldErrors);
       return;
     }
 
     if (boardId !== undefined) {
-      dispatchBoards({ type: "board_edited", boardId, board: values });
+      dispatchBoards({ type: "board_edited", boardId, board: data });
       toast.success("Board edited successfully.");
     } else {
       const id = globalThis.crypto.randomUUID();
       dispatchBoards({
         type: "board_created",
-        board: { id, lists: [], ...values },
+        board: { id, lists: [], ...data },
       });
       toast.success("Board created successfully.");
     }
 
     modalRef.current?.close();
-  };
-
-  const validateTitle = (title: string): boolean => {
-    if (title.length === 0) {
-      setTitleError("Title cannot be empty.");
-      return false;
-    }
-
-    if (title.length < 5) {
-      setTitleError("Title must be at least 5 characters.");
-      return false;
-    }
-
-    setTitleError(null);
-    return true;
   };
 
   return (
@@ -126,17 +118,19 @@ export default function BoardModal({
         type="text"
         name="title"
         defaultValue={defaultValues?.title}
-        error={titleError}
+        error={errors.title?.[0]}
       />
       <TextArea
         label="Description"
         name="description"
         defaultValue={defaultValues?.description}
+        error={errors.description?.[0]}
       />
       <ColorInput
         label="Color"
         name="color"
         defaultValue={defaultValues?.color}
+        error={errors.color?.[0]}
       />
     </FormModal>
   );
