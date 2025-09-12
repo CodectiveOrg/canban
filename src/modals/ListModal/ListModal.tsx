@@ -6,7 +6,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-import Button from "@/components/Button/Button.tsx";
 import TextInput from "@/components/TextInput/TextInput.tsx";
 
 import { ListsContext } from "@/context/lists-context.ts";
@@ -72,21 +71,10 @@ export default function ListModal({
         listIndex !== undefined ? "Edit Existing List" : "Create a New List"
       }
       onSubmit={handleSubmit(handleFormSubmit)}
-      extraActions={
-        listIndex !== undefined && (
-          <Button
-            type="button"
-            variant="text"
-            color="danger"
-            onClick={handleRemoveButtonClick}
-          >
-            Remove
-          </Button>
-        )
-      }
+      onRemove={listIndex !== undefined && handleRemoveButtonClick}
     >
       <TextInput
-        {...register("title", { required: true })}
+        {...register("title")}
         label="Title"
         type="text"
         error={errors.title?.message}
