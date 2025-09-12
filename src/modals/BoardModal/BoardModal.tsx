@@ -81,8 +81,8 @@ export default function BoardModal({
         boardId !== undefined ? "Edit Existing Board" : "Create a New Board"
       }
       onClose={() => reset()}
-      onSubmit={handleSubmit(handleFormSubmit)}
       onRemove={boardId !== undefined && handleRemoveButtonClick}
+      onSubmit={handleSubmit(handleFormSubmit)}
     >
       <TextInput
         {...register("title")}

@@ -72,8 +72,8 @@ export default function ListModal({
         listIndex !== undefined ? "Edit Existing List" : "Create a New List"
       }
       onClose={() => reset()}
-      onSubmit={handleSubmit(handleFormSubmit)}
       onRemove={listIndex !== undefined && handleRemoveButtonClick}
+      onSubmit={handleSubmit(handleFormSubmit)}
     >
       <TextInput
         {...register("title")}
