@@ -38,6 +38,7 @@ export default function BoardModal({
     control,
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm({
     defaultValues,
@@ -79,6 +80,7 @@ export default function BoardModal({
       heading={
         boardId !== undefined ? "Edit Existing Board" : "Create a New Board"
       }
+      onClose={() => reset()}
       onSubmit={handleSubmit(handleFormSubmit)}
       onRemove={boardId !== undefined && handleRemoveButtonClick}
     >
