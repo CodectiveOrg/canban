@@ -1,18 +1,13 @@
-import {
-  type ComponentProps,
-  type FormEvent,
-  type ReactNode,
-  use,
-  useState,
-} from "react";
+import { type ComponentProps, type ReactNode, use } from "react";
 
 import { useNavigate } from "react-router";
 
 import { toast } from "react-toastify";
 
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
 
-import Button from "@/components/Button/Button.tsx";
 import ColorInput from "@/components/ColorInput/ColorInput.tsx";
 import TextArea from "@/components/TextArea/TextArea.tsx";
 import TextInput from "@/components/TextInput/TextInput.tsx";
@@ -23,14 +18,11 @@ import FormModal from "@/modals/FormModal/FormModal.tsx";
 
 import { BoardSchema } from "@/schemas/board-schema.ts";
 
-import type { BoardColor, BoardType } from "@/types/board.ts";
-
-type Values = Omit<BoardType, "id" | "lists">;
-type Errors = { [key in keyof Values]?: string[] };
+type Values = z.infer<typeof BoardSchema>;
 
 type Props = Pick<ComponentProps<typeof FormModal>, "modalRef"> & {
   boardId?: string;
-  defaultValues?: Partial<Values>;
+  defaultValues?: Values;
 };
 
 export default function BoardModal({
@@ -42,7 +34,16 @@ export default function BoardModal({
 
   const navigate = useNavigate();
 
-  const [errors, setErrors] = useState<Errors>({});
+  const {
+    control,
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm({
+    defaultValues,
+    resolver: zodResolver(BoardSchema),
+  });
 
   const handleRemoveButtonClick = (): void => {
     if (boardId === undefined) {
@@ -57,34 +58,15 @@ export default function BoardModal({
     navigate("/");
   };
 
-  const handleFormReset = (): void => {
-    setErrors({});
-  };
-
-  const handleFormSubmit = (e: FormEvent<HTMLFormElement>): void => {
-    e.preventDefault();
-
-    const formData = new FormData(e.currentTarget);
-    const values: Values = {
-      title: formData.get("title") as string,
-      description: formData.get("description") as string,
-      color: formData.get("color") as BoardColor,
-    };
-
-    const { data, error } = BoardSchema.safeParse(values);
-    if (error) {
-      setErrors(z.flattenError(error).fieldErrors);
-      return;
-    }
-
+  const handleFormSubmit = (values: Values): void => {
     if (boardId !== undefined) {
-      dispatchBoards({ type: "board_edited", boardId, board: data });
+      dispatchBoards({ type: "board_edited", boardId, board: values });
       toast.success("Board edited successfully.");
     } else {
       const id = globalThis.crypto.randomUUID();
       dispatchBoards({
         type: "board_created",
-        board: { id, lists: [], ...data },
+        board: { id, lists: [], ...values },
       });
       toast.success("Board created successfully.");
     }
@@ -98,39 +80,27 @@ export default function BoardModal({
       heading={
         boardId !== undefined ? "Edit Existing Board" : "Create a New Board"
       }
-      onReset={handleFormReset}
-      onSubmit={handleFormSubmit}
-      extraActions={
-        boardId !== undefined && (
-          <Button
-            type="button"
-            variant="text"
-            color="danger"
-            onClick={handleRemoveButtonClick}
-          >
-            Remove
-          </Button>
-        )
-      }
+      onClose={() => reset()}
+      onRemove={boardId !== undefined && handleRemoveButtonClick}
+      onSubmit={handleSubmit(handleFormSubmit)}
     >
       <TextInput
+        {...register("title")}
         label="Title"
         type="text"
-        name="title"
-        defaultValue={defaultValues?.title}
-        error={errors.title?.[0]}
+        error={errors.title?.message}
       />
       <TextArea
+        {...register("description")}
         label="Description"
-        name="description"
-        defaultValue={defaultValues?.description}
-        error={errors.description?.[0]}
+        error={errors.description?.message}
       />
-      <ColorInput
-        label="Color"
+      <Controller
         name="color"
-        defaultValue={defaultValues?.color}
-        error={errors.color?.[0]}
+        control={control}
+        render={({ field }) => (
+          <ColorInput {...field} label="Color" error={errors.color?.message} />
+        )}
       />
     </FormModal>
   );

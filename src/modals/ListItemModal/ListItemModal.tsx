@@ -1,16 +1,11 @@
-import {
-  type ComponentProps,
-  type FormEvent,
-  type ReactNode,
-  use,
-  useState,
-} from "react";
+import { type ComponentProps, type ReactNode, use } from "react";
 
 import { toast } from "react-toastify";
 
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-import Button from "@/components/Button/Button.tsx";
 import TextArea from "@/components/TextArea/TextArea.tsx";
 import TextInput from "@/components/TextInput/TextInput.tsx";
 
@@ -20,15 +15,12 @@ import FormModal from "@/modals/FormModal/FormModal.tsx";
 
 import { ListItemSchema } from "@/schemas/list-item-schema.ts";
 
-import type { ListItemType } from "@/types/list-item.ts";
-
-type Values = Omit<ListItemType, "id">;
-type Errors = { [key in keyof Values]?: string[] };
+type Values = z.infer<typeof ListItemSchema>;
 
 type Props = Pick<ComponentProps<typeof FormModal>, "modalRef"> & {
   listIndex: number;
   itemIndex?: number;
-  defaultValues?: Partial<Values>;
+  defaultValues?: Values;
 };
 
 export default function ListItemModal({
@@ -39,7 +31,15 @@ export default function ListItemModal({
 }: Props): ReactNode {
   const { dispatchLists } = use(ListsContext);
 
-  const [errors, setErrors] = useState<Errors>({});
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm({
+    defaultValues,
+    resolver: zodResolver(ListItemSchema),
+  });
 
   const handleRemoveButtonClick = (): void => {
     if (itemIndex === undefined) {
@@ -52,32 +52,13 @@ export default function ListItemModal({
     modalRef.current?.close();
   };
 
-  const handleFormReset = (): void => {
-    setErrors({});
-  };
-
-  const handleFormSubmit = (e: FormEvent<HTMLFormElement>): void => {
-    e.preventDefault();
-
-    const formData = new FormData(e.currentTarget);
-    const values: Values = {
-      title: formData.get("title") as string,
-      description: formData.get("description") as string,
-      dueDate: formData.get("dueDate") as string,
-    };
-
-    const { data, error } = ListItemSchema.safeParse(values);
-    if (error) {
-      setErrors(z.flattenError(error).fieldErrors);
-      return;
-    }
-
+  const handleFormSubmit = (values: Values): void => {
     if (itemIndex !== undefined) {
       dispatchLists({
         type: "item_edited",
         listIndex,
         itemIndex,
-        item: data,
+        item: values,
       });
       toast.success("Item edited successfully.");
     } else {
@@ -85,7 +66,7 @@ export default function ListItemModal({
       dispatchLists({
         type: "item_created",
         listIndex,
-        item: { id, ...data },
+        item: { id, ...values },
       });
       toast.success("Item created successfully.");
     }
@@ -99,40 +80,26 @@ export default function ListItemModal({
       heading={
         itemIndex !== undefined ? `Edit Exising Item` : "Create a New Item"
       }
-      onReset={handleFormReset}
-      onSubmit={handleFormSubmit}
-      extraActions={
-        itemIndex !== undefined && (
-          <Button
-            type="button"
-            variant="text"
-            color="danger"
-            onClick={handleRemoveButtonClick}
-          >
-            Remove
-          </Button>
-        )
-      }
+      onClose={() => reset()}
+      onRemove={itemIndex !== undefined && handleRemoveButtonClick}
+      onSubmit={handleSubmit(handleFormSubmit)}
     >
       <TextInput
+        {...register("title")}
         label="Title"
         type="text"
-        name="title"
-        defaultValue={defaultValues?.title}
-        error={errors.title?.[0]}
+        error={errors.title?.message}
       />
       <TextArea
+        {...register("description")}
         label="Description"
-        name="description"
-        defaultValue={defaultValues?.description}
-        error={errors.description?.[0]}
+        error={errors.description?.message}
       />
       <TextInput
+        {...register("dueDate")}
         label="Due Date"
         type="date"
-        name="dueDate"
-        defaultValue={defaultValues?.dueDate}
-        error={errors.dueDate?.[0]}
+        error={errors.dueDate?.message}
       />
     </FormModal>
   );
