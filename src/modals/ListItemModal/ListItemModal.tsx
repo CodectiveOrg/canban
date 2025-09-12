@@ -8,6 +8,8 @@ import {
 
 import { toast } from "react-toastify";
 
+import { z } from "zod";
+
 import Button from "@/components/Button/Button.tsx";
 import TextArea from "@/components/TextArea/TextArea.tsx";
 import TextInput from "@/components/TextInput/TextInput.tsx";
@@ -16,9 +18,12 @@ import { ListsContext } from "@/context/lists-context.ts";
 
 import FormModal from "@/modals/FormModal/FormModal.tsx";
 
+import { ListItemSchema } from "@/schemas/list-item-schema.ts";
+
 import type { ListItemType } from "@/types/list-item.ts";
 
 type Values = Omit<ListItemType, "id">;
+type Errors = { [key in keyof Values]?: string[] };
 
 type Props = Pick<ComponentProps<typeof FormModal>, "modalRef"> & {
   listIndex: number;
@@ -34,7 +39,7 @@ export default function ListItemModal({
 }: Props): ReactNode {
   const { dispatchLists } = use(ListsContext);
 
-  const [titleError, setTitleError] = useState<string | null>(null);
+  const [errors, setErrors] = useState<Errors>({});
 
   const handleRemoveButtonClick = (): void => {
     if (itemIndex === undefined) {
@@ -48,7 +53,7 @@ export default function ListItemModal({
   };
 
   const handleFormReset = (): void => {
-    setTitleError(null);
+    setErrors({});
   };
 
   const handleFormSubmit = (e: FormEvent<HTMLFormElement>): void => {
@@ -61,7 +66,9 @@ export default function ListItemModal({
       dueDate: formData.get("dueDate") as string,
     };
 
-    if (!validateTitle(values.title)) {
+    const { data, error } = ListItemSchema.safeParse(values);
+    if (error) {
+      setErrors(z.flattenError(error).fieldErrors);
       return;
     }
 
@@ -70,7 +77,7 @@ export default function ListItemModal({
         type: "item_edited",
         listIndex,
         itemIndex,
-        item: values,
+        item: data,
       });
       toast.success("Item edited successfully.");
     } else {
@@ -78,27 +85,12 @@ export default function ListItemModal({
       dispatchLists({
         type: "item_created",
         listIndex,
-        item: { id, ...values },
+        item: { id, ...data },
       });
       toast.success("Item created successfully.");
     }
 
     modalRef.current?.close();
-  };
-
-  const validateTitle = (title: string): boolean => {
-    if (title.length === 0) {
-      setTitleError("Title cannot be empty.");
-      return false;
-    }
-
-    if (title.length < 5) {
-      setTitleError("Title must be at least 5 characters.");
-      return false;
-    }
-
-    setTitleError(null);
-    return true;
   };
 
   return (
@@ -127,18 +119,20 @@ export default function ListItemModal({
         type="text"
         name="title"
         defaultValue={defaultValues?.title}
-        error={titleError}
+        error={errors.title?.[0]}
       />
       <TextArea
         label="Description"
         name="description"
         defaultValue={defaultValues?.description}
+        error={errors.description?.[0]}
       />
       <TextInput
         label="Due Date"
         type="date"
         name="dueDate"
         defaultValue={defaultValues?.dueDate}
+        error={errors.dueDate?.[0]}
       />
     </FormModal>
   );
