@@ -14,7 +14,7 @@
     padding: var(--padding);
 
     border: var(--border-width) solid var(--color-border);
-    border-radius: var(--border-radius-1);
+    border-radius: var(--border-radius-2);
 
     &:focus {
       outline: 2px solid var(--color-primary);

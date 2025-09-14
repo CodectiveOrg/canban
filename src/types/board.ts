@@ -14,6 +14,7 @@ export const BOARD_COLORS = Object.freeze([
   "yellow",
   "orange",
   "red",
+  "purple",
   "gray",
 ] as const);
 

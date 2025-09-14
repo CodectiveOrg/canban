@@ -1,6 +1,6 @@
 .icon-button {
   background-color: transparent;
-  color: var(--color-gray-9);
+  color: inherit;
 
   display: inline-flex;
   align-items: center;
@@ -18,7 +18,7 @@
   cursor: pointer;
 
   &:hover {
-    background-color: var(--color-gray-4);
+    background-color: var(--color-surface-0);
 
     transition-duration: 250ms;
   }
