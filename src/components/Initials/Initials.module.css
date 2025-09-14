@@ -1,0 +1,16 @@
+.initials {
+  background-color: var(--color-100);
+  color: var(--color-main);
+
+  display: grid;
+  place-content: center;
+
+  block-size: 1em;
+  inline-size: 1em;
+
+  border-radius: var(--border-radius-2);
+
+  .text {
+    font-size: 0.5em;
+  }
+}

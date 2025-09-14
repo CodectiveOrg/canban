@@ -1,0 +1,27 @@
+.group {
+  display: grid;
+  gap: 0.5rem;
+
+  .title {
+    color: var(--color-text-secondary);
+
+    padding-inline: var(--item-padding-inline);
+
+    font-size: 0.75rem;
+
+    text-transform: uppercase;
+  }
+
+  > ul {
+    display: grid;
+    gap: 0.5rem;
+  }
+
+  &.collapsed {
+    justify-items: center;
+
+    > ul {
+      justify-items: center;
+    }
+  }
+}
