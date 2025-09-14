@@ -16,4 +16,12 @@
     display: grid;
     gap: 0.5rem;
   }
+
+  &.collapsed {
+    justify-items: center;
+
+    > ul {
+      justify-items: center;
+    }
+  }
 }
