@@ -1,6 +1,29 @@
 .root-layout {
   display: grid;
-  grid-template-rows: auto minmax(0, 1fr) auto;
+  grid-template-areas: "sidebar main" "sidebar footer";
+  grid-template-columns: auto minmax(0, 1fr);
+  grid-template-rows: minmax(0, 1fr) auto;
 
   block-size: 100dvh;
+
+  > main {
+    grid-area: main;
+
+    margin-block-start: 1rem;
+  }
+
+  > aside {
+    grid-area: sidebar;
+  }
+
+  > footer {
+    grid-area: footer;
+  }
+
+  > main,
+  > footer {
+    justify-self: center;
+
+    inline-size: min(75rem, 100% - 2rem);
+  }
 }

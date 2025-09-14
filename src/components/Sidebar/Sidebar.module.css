@@ -1,0 +1,31 @@
+.sidebar {
+  --item-padding-inline: 1rem;
+
+  background-color: var(--color-surface-3);
+  box-shadow: var(--shadow-2);
+
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  align-content: start;
+  gap: 2rem;
+
+  inline-size: 17rem;
+
+  padding: 1rem;
+
+  .header {
+    .logo {
+      padding-inline: var(--item-padding-inline);
+
+      img {
+        block-size: 2rem;
+      }
+    }
+  }
+
+  nav {
+    display: grid;
+    align-content: start;
+    gap: 2rem;
+  }
+}
