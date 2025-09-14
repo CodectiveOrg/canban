@@ -26,8 +26,8 @@ export default function BoardPage(): ReactNode {
   }
 
   return (
-    <BoardPageProvider board={board}>
-      <ListsProvider key={id}>
+    <BoardPageProvider key={board.id} board={board}>
+      <ListsProvider>
         <DndProvider>
           <div className={styles["board-page"]}>
             <Board />
