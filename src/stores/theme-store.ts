@@ -3,12 +3,12 @@ import { persist } from "zustand/middleware";
 
 import type { Theme } from "@/types/theme.ts";
 
-type ThemeStore = {
+type ThemeState = {
   theme: Theme;
   toggleTheme: () => void;
 };
 
-export const useThemeStore = create<ThemeStore>()(
+export const useThemeStore = create<ThemeState>()(
   persist(
     (set) => ({
       theme: "light",

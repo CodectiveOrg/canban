@@ -15,16 +15,16 @@ import {
   createListsSlice,
 } from "@/stores/slices/lists-slice.ts";
 
-export type KanbanStore = BoardsSlice & ListsSlice & ItemsSlice;
+export type KanbanState = BoardsSlice & ListsSlice & ItemsSlice;
 
 export type KanbanStateCreator<T> = StateCreator<
-  KanbanStore,
+  KanbanState,
   [["zustand/immer", never]],
   [],
   T
 >;
 
-export const useKanbanStore = create<KanbanStore>()(
+export const useKanbanStore = create<KanbanState>()(
   persist(
     immer((...args) => ({
       ...createBoardsSlice(...args),

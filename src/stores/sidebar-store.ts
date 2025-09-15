@@ -1,12 +1,12 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
-type SidebarStore = {
+type SidebarState = {
   isCollapsed: boolean;
   fold: () => void;
 };
 
-export const useSidebarStore = create<SidebarStore>()(
+export const useSidebarStore = create<SidebarState>()(
   persist(
     (set) => ({
       isCollapsed: false,

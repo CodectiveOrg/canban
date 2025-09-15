@@ -37,9 +37,7 @@ export type ItemsSlice = {
   ) => void;
 };
 
-export const createItemsSlice: KanbanStateCreator<ItemsSlice> = (
-  set,
-): ItemsSlice => ({
+export const createItemsSlice: KanbanStateCreator<ItemsSlice> = (set) => ({
   createItem: (boardId, listIndex, item) =>
     set((state) => {
       withBoard(state, boardId, (board) => {
