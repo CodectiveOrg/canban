@@ -41,7 +41,7 @@ export default function BoardModal({
     reset,
     formState: { errors },
   } = useForm({
-    defaultValues,
+    defaultValues: defaultValues ?? { color: "blue" },
     resolver: zodResolver(BoardSchema),
   });
 
