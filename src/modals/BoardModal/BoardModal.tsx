@@ -1,4 +1,4 @@
-import { type ComponentProps, type ReactNode, use } from "react";
+import { type ComponentProps, type ReactNode } from "react";
 
 import { useNavigate } from "react-router";
 
@@ -12,11 +12,11 @@ import ColorInput from "@/components/ColorInput/ColorInput.tsx";
 import TextArea from "@/components/TextArea/TextArea.tsx";
 import TextInput from "@/components/TextInput/TextInput.tsx";
 
-import { BoardsContext } from "@/context/boards-context.ts";
-
 import FormModal from "@/modals/FormModal/FormModal.tsx";
 
 import { BoardSchema } from "@/schemas/board-schema.ts";
+
+import { useKanbanStore } from "@/stores/kanban-store.ts";
 
 type Values = z.infer<typeof BoardSchema>;
 
@@ -30,7 +30,9 @@ export default function BoardModal({
   boardId,
   defaultValues,
 }: Props): ReactNode {
-  const { dispatchBoards } = use(BoardsContext);
+  const createBoard = useKanbanStore((state) => state.createBoard);
+  const editBoard = useKanbanStore((state) => state.editBoard);
+  const removeBoard = useKanbanStore((state) => state.removeBoard);
 
   const navigate = useNavigate();
 
@@ -41,7 +43,7 @@ export default function BoardModal({
     reset,
     formState: { errors },
   } = useForm({
-    defaultValues,
+    defaultValues: defaultValues ?? { color: "blue" },
     resolver: zodResolver(BoardSchema),
   });
 
@@ -50,7 +52,7 @@ export default function BoardModal({
       return;
     }
 
-    dispatchBoards({ type: "board_removed", boardId });
+    removeBoard(boardId);
     toast.success("Board removed successfully.");
 
     modalRef.current?.close();
@@ -60,14 +62,10 @@ export default function BoardModal({
 
   const handleFormSubmit = (values: Values): void => {
     if (boardId !== undefined) {
-      dispatchBoards({ type: "board_edited", boardId, board: values });
+      editBoard(boardId, values);
       toast.success("Board edited successfully.");
     } else {
-      const id = globalThis.crypto.randomUUID();
-      dispatchBoards({
-        type: "board_created",
-        board: { id, lists: [], ...values },
-      });
+      createBoard(values);
       toast.success("Board created successfully.");
     }
 

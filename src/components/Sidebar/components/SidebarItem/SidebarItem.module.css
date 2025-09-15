@@ -13,6 +13,7 @@
   border: none;
   border-radius: var(--border-radius-2);
 
+  text-align: start;
   text-decoration: none;
 
   cursor: pointer;
@@ -24,13 +25,15 @@
   }
 
   .title {
+    flex-grow: 1;
+
     text-box-edge: cap alphabetic;
     text-box-trim: trim-both;
   }
 
   &:hover,
   &.active {
-    background-color: var(--color-100);
+    background-color: var(--color-fade);
     color: var(--color-main);
   }
 

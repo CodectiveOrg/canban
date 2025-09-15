@@ -1,18 +1,19 @@
-import { type ReactNode, use } from "react";
+import { type ReactNode } from "react";
 
 import { NavLink } from "react-router";
 
 import clsx from "clsx";
 
-import { SidebarContext } from "@/components/Sidebar/context/sidebar-context.ts";
+import { useSidebarStore } from "@/stores/sidebar-store.ts";
 
 import type { BoardColor } from "@/types/board.ts";
 
 import styles from "./SidebarItem.module.css";
 
 type Props = {
+  id: string;
   href?: string;
-  title: string;
+  title: ReactNode;
   color: BoardColor;
   icon: ReactNode;
   onClick?: () => void;
@@ -25,7 +26,7 @@ export default function SidebarItem({
   icon,
   onClick,
 }: Props): ReactNode {
-  const { isCollapsed } = use(SidebarContext);
+  const isCollapsed = useSidebarStore((state) => state.isCollapsed);
 
   const className = clsx(
     styles["sidebar-item"],

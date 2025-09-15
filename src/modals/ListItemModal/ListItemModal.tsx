@@ -1,4 +1,6 @@
-import { type ComponentProps, type ReactNode, use } from "react";
+import { type ComponentProps, type ReactNode } from "react";
+
+import { useParams } from "react-router";
 
 import { toast } from "react-toastify";
 
@@ -9,11 +11,11 @@ import { z } from "zod";
 import TextArea from "@/components/TextArea/TextArea.tsx";
 import TextInput from "@/components/TextInput/TextInput.tsx";
 
-import { ListsContext } from "@/context/lists-context.ts";
-
 import FormModal from "@/modals/FormModal/FormModal.tsx";
 
 import { ListItemSchema } from "@/schemas/list-item-schema.ts";
+
+import { useKanbanStore } from "@/stores/kanban-store.ts";
 
 type Values = z.infer<typeof ListItemSchema>;
 
@@ -29,7 +31,11 @@ export default function ListItemModal({
   itemIndex,
   defaultValues,
 }: Props): ReactNode {
-  const { dispatchLists } = use(ListsContext);
+  const { boardId } = useParams();
+
+  const createItem = useKanbanStore((state) => state.createItem);
+  const editItem = useKanbanStore((state) => state.editItem);
+  const removeItem = useKanbanStore((state) => state.removeItem);
 
   const {
     register,
@@ -46,7 +52,7 @@ export default function ListItemModal({
       return;
     }
 
-    dispatchLists({ type: "item_removed", listIndex, itemIndex });
+    removeItem(boardId, listIndex, itemIndex);
     toast.success("Item removed successfully.");
 
     modalRef.current?.close();
@@ -54,20 +60,10 @@ export default function ListItemModal({
 
   const handleFormSubmit = (values: Values): void => {
     if (itemIndex !== undefined) {
-      dispatchLists({
-        type: "item_edited",
-        listIndex,
-        itemIndex,
-        item: values,
-      });
+      editItem(boardId, listIndex, itemIndex, values);
       toast.success("Item edited successfully.");
     } else {
-      const id = globalThis.crypto.randomUUID();
-      dispatchLists({
-        type: "item_created",
-        listIndex,
-        item: { id, ...values },
-      });
+      createItem(boardId, listIndex, values);
       toast.success("Item created successfully.");
     }
 

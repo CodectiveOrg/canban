@@ -2,7 +2,11 @@ import type { ReactNode } from "react";
 
 import { Slide, ToastContainer } from "react-toastify";
 
+import { useThemeStore } from "@/stores/theme-store.ts";
+
 export default function Toaster(): ReactNode {
+  const theme = useThemeStore((state) => state.theme);
+
   return (
     <ToastContainer
       position="bottom-right"
@@ -14,7 +18,7 @@ export default function Toaster(): ReactNode {
       pauseOnFocusLoss
       draggable
       pauseOnHover
-      theme="light"
+      theme={theme}
       transition={Slide}
     />
   );

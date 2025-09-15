@@ -13,7 +13,7 @@ export default function App(): ReactNode {
     <Routes>
       <Route element={<RootLayout />}>
         <Route index element={<HomePage />} />
-        <Route path="board/:id" element={<BoardPage />} />
+        <Route path="board/:boardId" element={<BoardPage />} />
         <Route path="*" element={<NotFoundPage />} />
       </Route>
     </Routes>

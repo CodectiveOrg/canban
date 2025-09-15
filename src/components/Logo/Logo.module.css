@@ -1,0 +1,8 @@
+.logo {
+  font-weight: 900;
+  font-style: italic;
+
+  &::first-letter {
+    font-size: 1.25em;
+  }
+}

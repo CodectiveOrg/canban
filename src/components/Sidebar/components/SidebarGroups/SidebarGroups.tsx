@@ -1,15 +1,18 @@
-import { type ComponentProps, type ReactNode, use } from "react";
+import { type ComponentProps, type ReactNode } from "react";
 
 import clsx from "clsx";
 
 import Initials from "@/components/Initials/Initials.tsx";
 import SidebarItem from "@/components/Sidebar/components/SidebarItem/SidebarItem.tsx";
-import { SidebarContext } from "@/components/Sidebar/context/sidebar-context.ts";
-
-import { BoardsContext } from "@/context/boards-context.ts";
+import ThemeSwitch from "@/components/Sidebar/components/ThemeSwitch/ThemeSwitch.tsx";
 
 import MingcuteHome7Line from "@/icons/MingcuteHome7Line.tsx";
+import MingcuteMoonStarsLine from "@/icons/MingcuteMoonStarsLine.tsx";
 import MingcuteSettings5Line from "@/icons/MingcuteSettings5Line.tsx";
+
+import { useKanbanStore } from "@/stores/kanban-store.ts";
+import { useSidebarStore } from "@/stores/sidebar-store.ts";
+import { useThemeStore } from "@/stores/theme-store.ts";
 
 import styles from "./SidebarGroups.module.css";
 
@@ -19,13 +22,15 @@ type SidebarGroup = {
 };
 
 export default function SidebarGroups(): ReactNode {
-  const { boards } = use(BoardsContext);
-  const { isCollapsed } = use(SidebarContext);
+  const boards = useKanbanStore((state) => state.boards);
+  const isCollapsed = useSidebarStore((state) => state.isCollapsed);
+  const toggleTheme = useThemeStore((state) => state.toggleTheme);
 
   const groups: SidebarGroup[] = [
     {
       items: [
         {
+          id: "home",
           href: "/",
           title: "Home",
           color: "gray",
@@ -37,16 +42,25 @@ export default function SidebarGroups(): ReactNode {
       title: "System",
       items: [
         {
+          id: "settings",
           href: "/settings",
           title: "Settings",
           color: "gray",
           icon: <MingcuteSettings5Line />,
+        },
+        {
+          id: "theme",
+          title: <ThemeSwitch />,
+          color: "gray",
+          icon: <MingcuteMoonStarsLine />,
+          onClick: toggleTheme,
         },
       ],
     },
     {
       title: "Boards",
       items: boards.map((board) => ({
+        id: board.id,
         href: `/board/${board.id}`,
         title: board.title,
         color: board.color,
@@ -67,7 +81,7 @@ export default function SidebarGroups(): ReactNode {
       )}
       <ul>
         {group.items.map((item) => (
-          <li key={item.href}>
+          <li key={item.id}>
             <SidebarItem {...item} />
           </li>
         ))}

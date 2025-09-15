@@ -30,6 +30,7 @@ optgroup {
 
 body {
   background-color: var(--color-surface-1);
+  color: var(--color-text);
 
   margin-inline: auto;
 

@@ -2,6 +2,9 @@
   display: grid;
 
   input {
+    background-color: var(--color-surface-3);
+    color: var(--color-text);
+
     padding: 0.5rem;
 
     border: 1px solid var(--color-border);

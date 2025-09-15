@@ -1,4 +1,6 @@
-import { type PropsWithChildren, type ReactNode, use, useState } from "react";
+import { type PropsWithChildren, type ReactNode, useState } from "react";
+
+import { useParams } from "react-router";
 
 import {
   DndContext,
@@ -14,16 +16,22 @@ import {
 import List from "@/components/List/List.tsx";
 import ListItem from "@/components/ListItem/ListItem.tsx";
 
-import { ListsContext } from "@/context/lists-context.ts";
-
 import { detectCollision } from "@/providers/DndProvider/utils/collision-detection.ts";
+
+import { useKanbanStore } from "@/stores/kanban-store.ts";
 
 import type { DraggableData } from "@/types/draggable-data.ts";
 
 type Props = PropsWithChildren;
 
 export default function DndProvider({ children }: Props): ReactNode {
-  const { dispatchLists } = use(ListsContext);
+  const { boardId } = useParams();
+
+  const moveList = useKanbanStore((state) => state.moveList);
+  const moveItem = useKanbanStore((state) => state.moveItem);
+  const moveItemBetweenLists = useKanbanStore(
+    (state) => state.moveItemBetweenLists,
+  );
 
   const sensors = useSensors(useSensor(PointerSensor));
 
@@ -38,13 +46,13 @@ export default function DndProvider({ children }: Props): ReactNode {
       return;
     }
 
-    dispatchLists({
-      type: "item_dragged_over",
-      activeListIndex: e.active.data.current!.listIndex,
-      activeItemIndex: e.active.data.current!.itemIndex,
-      overListIndex: e.over.data.current!.listIndex,
-      overItemIndex: e.over.data.current!.itemIndex,
-    });
+    moveItemBetweenLists(
+      boardId,
+      e.active.data.current!.listIndex,
+      e.active.data.current!.itemIndex,
+      e.over.data.current!.listIndex,
+      e.over.data.current!.itemIndex,
+    );
   };
 
   const handleDragEnd = (e: DragEndEvent): void => {
@@ -55,18 +63,18 @@ export default function DndProvider({ children }: Props): ReactNode {
     }
 
     if (e.active.data.current!.isList) {
-      dispatchLists({
-        type: "list_dragged_end",
-        activeListIndex: e.active.data.current!.listIndex,
-        overListIndex: e.over.data.current!.listIndex,
-      });
+      moveList(
+        boardId,
+        e.active.data.current!.listIndex,
+        e.over.data.current!.listIndex,
+      );
     } else {
-      dispatchLists({
-        type: "item_dragged_end",
-        activeListIndex: e.active.data.current!.listIndex,
-        activeItemIndex: e.active.data.current!.itemIndex,
-        overItemIndex: e.over.data.current!.itemIndex,
-      });
+      moveItem(
+        boardId,
+        e.active.data.current!.listIndex,
+        e.active.data.current!.itemIndex,
+        e.over.data.current!.itemIndex,
+      );
     }
   };
 

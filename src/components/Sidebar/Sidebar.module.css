@@ -17,16 +17,23 @@
     position: relative;
 
     .logo {
+      color: inherit;
+
+      display: block;
+
       padding-inline: var(--item-padding-inline);
 
-      img {
-        block-size: 2rem;
-      }
+      font-size: 2rem;
+
+      text-decoration: none;
     }
 
     .arrow {
       position: absolute;
+      inset-block-start: 50%;
       inset-inline-end: 0;
+
+      translate: 0 -50%;
     }
   }
 
@@ -39,11 +46,13 @@
   &.collapsed {
     inline-size: auto;
 
+    margin-inline-end: 1rem;
+
     .header {
       .arrow {
         background-color: var(--color-surface-3);
 
-        translate: calc(2 * var(--item-padding-inline));
+        translate: calc(2 * var(--item-padding-inline)) -50%;
       }
     }
   }

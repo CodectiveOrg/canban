@@ -1,8 +1,6 @@
-import { type ReactNode, use, useRef } from "react";
+import { type ReactNode, useRef } from "react";
 
 import IconButton from "@/components/IconButton/IconButton.tsx";
-
-import { BoardPageContext } from "@/context/board-page-context.ts";
 
 import MingcuteAddLine from "@/icons/MingcuteAddLine.tsx";
 import MingcuteEdit2Line from "@/icons/MingcuteEdit2Line.tsx";
@@ -10,11 +8,15 @@ import MingcuteEdit2Line from "@/icons/MingcuteEdit2Line.tsx";
 import BoardModal from "@/modals/BoardModal/BoardModal.tsx";
 import ListModal from "@/modals/ListModal/ListModal.tsx";
 
+import type { BoardType } from "@/types/board.ts";
+
 import styles from "./BoardToolbar.module.css";
 
-export default function BoardToolbar(): ReactNode {
-  const { board } = use(BoardPageContext);
+type Props = {
+  board: BoardType;
+};
 
+export default function BoardToolbar({ board }: Props): ReactNode {
   const boardModalRef = useRef<HTMLDialogElement>(null);
   const listModalRef = useRef<HTMLDialogElement>(null);
 
