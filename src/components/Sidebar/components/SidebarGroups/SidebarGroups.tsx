@@ -4,13 +4,16 @@ import clsx from "clsx";
 
 import Initials from "@/components/Initials/Initials.tsx";
 import SidebarItem from "@/components/Sidebar/components/SidebarItem/SidebarItem.tsx";
+import ThemeSwitch from "@/components/Sidebar/components/ThemeSwitch/ThemeSwitch.tsx";
 
 import { BoardsContext } from "@/context/boards-context.ts";
 
 import MingcuteHome7Line from "@/icons/MingcuteHome7Line.tsx";
+import MingcuteMoonStarsLine from "@/icons/MingcuteMoonStarsLine.tsx";
 import MingcuteSettings5Line from "@/icons/MingcuteSettings5Line.tsx";
 
 import { useSidebarStore } from "@/stores/sidebar-store.ts";
+import { useThemeStore } from "@/stores/theme-store.ts";
 
 import styles from "./SidebarGroups.module.css";
 
@@ -21,6 +24,8 @@ type SidebarGroup = {
 
 export default function SidebarGroups(): ReactNode {
   const isCollapsed = useSidebarStore((state) => state.isCollapsed);
+
+  const toggleTheme = useThemeStore((state) => state.toggleTheme);
 
   const { boards } = use(BoardsContext);
 
@@ -43,6 +48,12 @@ export default function SidebarGroups(): ReactNode {
           title: "Settings",
           color: "gray",
           icon: <MingcuteSettings5Line />,
+        },
+        {
+          title: <ThemeSwitch />,
+          color: "gray",
+          icon: <MingcuteMoonStarsLine />,
+          onClick: toggleTheme,
         },
       ],
     },

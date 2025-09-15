@@ -12,7 +12,7 @@ import styles from "./SidebarItem.module.css";
 
 type Props = {
   href?: string;
-  title: string;
+  title: ReactNode;
   color: BoardColor;
   icon: ReactNode;
   onClick?: () => void;

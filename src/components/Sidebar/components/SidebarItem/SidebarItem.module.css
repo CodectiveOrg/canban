@@ -13,6 +13,7 @@
   border: none;
   border-radius: var(--border-radius-2);
 
+  text-align: start;
   text-decoration: none;
 
   cursor: pointer;
@@ -24,6 +25,8 @@
   }
 
   .title {
+    flex-grow: 1;
+
     text-box-edge: cap alphabetic;
     text-box-trim: trim-both;
   }
