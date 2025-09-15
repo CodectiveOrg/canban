@@ -1,16 +1,18 @@
-import { type ReactNode, use } from "react";
+import { type ReactNode } from "react";
 
 import { SortableContext } from "@dnd-kit/sortable";
 
 import List from "@/components/List/List.tsx";
 
-import { ListsContext } from "@/context/lists-context.ts";
+import type { ListType } from "@/types/list.ts";
 
 import styles from "./BoardLists.module.css";
 
-export default function BoardLists(): ReactNode {
-  const { lists } = use(ListsContext);
+type Props = {
+  lists: ListType[];
+};
 
+export default function BoardLists({ lists }: Props): ReactNode {
   return (
     <SortableContext id="board" items={lists.map((list) => list.id)}>
       <ul className={styles["board-lists"]}>
