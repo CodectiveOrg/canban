@@ -5,6 +5,7 @@ import { Link } from "react-router";
 import clsx from "clsx";
 
 import IconButton from "@/components/IconButton/IconButton.tsx";
+import Logo from "@/components/Logo/Logo.tsx";
 import SidebarGroups from "@/components/Sidebar/components/SidebarGroups/SidebarGroups.tsx";
 import SidebarItem from "@/components/Sidebar/components/SidebarItem/SidebarItem.tsx";
 
@@ -23,10 +24,7 @@ export default function Sidebar(): ReactNode {
     <aside className={clsx(styles.sidebar, isCollapsed && styles.collapsed)}>
       <div className={styles.header}>
         <Link className={styles.logo} to="/">
-          <img
-            src={isCollapsed ? "/favicon.svg" : "/logo.svg"}
-            alt="Canban Logo"
-          />
+          <Logo />
         </Link>
         <IconButton className={styles.arrow} onClick={fold}>
           <MingcuteArrowsRightLine />
@@ -37,6 +35,7 @@ export default function Sidebar(): ReactNode {
       </nav>
       <div className={styles.footer}>
         <SidebarItem
+          id="sign-out"
           title="Sign Out"
           color="gray"
           icon={<MingcuteExitLine />}

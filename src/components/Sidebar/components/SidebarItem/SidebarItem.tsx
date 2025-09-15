@@ -11,6 +11,7 @@ import type { BoardColor } from "@/types/board.ts";
 import styles from "./SidebarItem.module.css";
 
 type Props = {
+  id: string;
   href?: string;
   title: ReactNode;
   color: BoardColor;
