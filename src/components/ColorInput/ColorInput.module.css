@@ -6,8 +6,8 @@
     gap: 0.5rem;
 
     button {
-      background-color: var(--color-white);
-      color: var(--color-white);
+      background-color: var(--color-surface-3);
+      color: var(--color-surface-3);
 
       display: grid;
       place-content: center;

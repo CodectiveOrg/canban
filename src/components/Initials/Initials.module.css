@@ -1,5 +1,5 @@
 .initials {
-  background-color: var(--color-100);
+  background-color: var(--color-fade);
   color: var(--color-main);
 
   display: grid;

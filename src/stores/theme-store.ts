@@ -15,6 +15,17 @@ export const useThemeStore = create<ThemeStore>()(
       toggleTheme: () =>
         set((state) => ({ theme: state.theme === "light" ? "dark" : "light" })),
     }),
-    { name: "theme" },
+    {
+      name: "theme",
+      onRehydrateStorage: () => {
+        return (state) => {
+          document.documentElement.dataset.theme = state?.theme ?? "light";
+        };
+      },
+    },
   ),
 );
+
+useThemeStore.subscribe((state) => {
+  document.documentElement.dataset.theme = state.theme;
+});

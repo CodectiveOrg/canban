@@ -6,6 +6,9 @@
   display: grid;
 
   textarea {
+    background-color: var(--color-surface-3);
+    color: var(--color-text);
+
     min-block-size: calc(1lh + var(--padding-and-border));
     block-size: calc(3lh + var(--padding-and-border));
     max-block-size: calc(5lh + var(--padding-and-border));
