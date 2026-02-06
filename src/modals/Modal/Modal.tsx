@@ -2,7 +2,8 @@ import {
   type ComponentProps,
   type PointerEvent,
   type ReactNode,
-  type RefObject,
+  useLayoutEffect,
+  useRef,
 } from "react";
 
 import clsx from "clsx";
@@ -11,16 +12,16 @@ import IconButton from "@/components/IconButton/IconButton.tsx";
 
 import MingcuteCloseLine from "@/icons/MingcuteCloseLine.tsx";
 
+import { useModalStore } from "@/stores/modal-store.ts";
+
 import styles from "./Modal.module.css";
 
 type Props = ComponentProps<"dialog"> & {
-  ref: RefObject<HTMLDialogElement | null>;
   contentClassName?: string;
   heading: string;
 };
 
 export default function Modal({
-  ref,
   className,
   contentClassName,
   heading,
@@ -28,18 +29,26 @@ export default function Modal({
   onPointerDown,
   ...otherProps
 }: Props): ReactNode {
+  const closeModal = useModalStore((state) => state.closeModal);
+
+  const ref = useRef<HTMLDialogElement>(null);
+
+  useLayoutEffect(() => {
+    ref.current?.showModal();
+  }, []);
+
   const handleDialogPointerDown = (
     e: PointerEvent<HTMLDialogElement>,
   ): void => {
     if (e.target === e.currentTarget) {
-      ref.current?.close();
+      closeModal();
     } else {
       onPointerDown?.(e);
     }
   };
 
   const handleCloseButtonClick = (): void => {
-    ref.current?.close();
+    closeModal();
   };
 
   return (

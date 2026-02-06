@@ -4,13 +4,11 @@ import Button from "@/components/Button/Button.tsx";
 
 import Modal from "@/modals/Modal/Modal.tsx";
 
+import { useModalStore } from "@/stores/modal-store.ts";
+
 import styles from "./FormModal.module.css";
 
-type ModalProps = {
-  modalRef: ComponentProps<typeof Modal>["ref"];
-  heading: ComponentProps<typeof Modal>["heading"];
-  onClose: ComponentProps<typeof Modal>["onClose"];
-};
+type ModalProps = Pick<ComponentProps<typeof Modal>, "heading" | "onClose">;
 
 type FormProps = ComponentProps<"form"> & {
   onRemove?: false | (() => void);
@@ -19,20 +17,20 @@ type FormProps = ComponentProps<"form"> & {
 type Props = ModalProps & FormProps;
 
 export default function FormModal({
-  modalRef,
   heading,
   onClose,
   onRemove,
   children,
   ...otherProps
 }: Props): ReactNode {
+  const closeModal = useModalStore((state) => state.closeModal);
+
   const handleCancelButtonClick = (): void => {
-    modalRef.current?.close();
+    closeModal();
   };
 
   return (
     <Modal
-      ref={modalRef}
       contentClassName={styles["form-modal"]}
       heading={heading}
       onClose={onClose}

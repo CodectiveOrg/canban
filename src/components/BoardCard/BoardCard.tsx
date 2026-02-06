@@ -1,4 +1,4 @@
-import { type ReactNode, useRef } from "react";
+import { type ReactNode } from "react";
 
 import { Link } from "react-router";
 
@@ -10,6 +10,8 @@ import MingcuteEdit2Line from "@/icons/MingcuteEdit2Line.tsx";
 
 import BoardModal from "@/modals/BoardModal/BoardModal.tsx";
 
+import { useModalStore } from "@/stores/modal-store.ts";
+
 import type { BoardType } from "@/types/board.ts";
 
 import styles from "./BoardCard.module.css";
@@ -19,10 +21,10 @@ type Props = {
 };
 
 export default function BoardCard({ board }: Props): ReactNode {
-  const modalRef = useRef<HTMLDialogElement>(null);
+  const showModal = useModalStore((state) => state.showModal);
 
   const handleEditButtonClick = (): void => {
-    modalRef.current?.showModal();
+    showModal(() => <BoardModal boardId={board.id} defaultValues={board} />);
   };
 
   return (
@@ -39,11 +41,6 @@ export default function BoardCard({ board }: Props): ReactNode {
         </div>
         <p className={styles.description}>{board.description}</p>
       </div>
-      <BoardModal
-        modalRef={modalRef}
-        boardId={board.id}
-        defaultValues={board}
-      />
     </div>
   );
 }

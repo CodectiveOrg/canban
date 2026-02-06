@@ -1,4 +1,4 @@
-import { type ReactNode, useRef } from "react";
+import { type ReactNode } from "react";
 
 import IconButton from "@/components/IconButton/IconButton.tsx";
 
@@ -7,6 +7,8 @@ import MingcuteEdit2Line from "@/icons/MingcuteEdit2Line.tsx";
 
 import BoardModal from "@/modals/BoardModal/BoardModal.tsx";
 import ListModal from "@/modals/ListModal/ListModal.tsx";
+
+import { useModalStore } from "@/stores/modal-store.ts";
 
 import type { BoardType } from "@/types/board.ts";
 
@@ -17,15 +19,14 @@ type Props = {
 };
 
 export default function BoardToolbar({ board }: Props): ReactNode {
-  const boardModalRef = useRef<HTMLDialogElement>(null);
-  const listModalRef = useRef<HTMLDialogElement>(null);
+  const showModal = useModalStore((state) => state.showModal);
 
   const handleEditBoardButtonClick = (): void => {
-    boardModalRef.current?.showModal();
+    showModal(() => <BoardModal boardId={board.id} defaultValues={board} />);
   };
 
   const handleCreateListButtonClick = (): void => {
-    listModalRef.current?.showModal();
+    showModal(() => <ListModal />);
   };
 
   return (
@@ -39,12 +40,6 @@ export default function BoardToolbar({ board }: Props): ReactNode {
           <MingcuteAddLine />
         </IconButton>
       </div>
-      <BoardModal
-        modalRef={boardModalRef}
-        boardId={board.id}
-        defaultValues={board}
-      />
-      <ListModal modalRef={listModalRef} />
     </div>
   );
 }
