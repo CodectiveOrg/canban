@@ -1,4 +1,4 @@
-import { type MouseEvent, type ReactNode, useRef } from "react";
+import { type MouseEvent, type ReactNode } from "react";
 
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
@@ -10,6 +10,8 @@ import IconButton from "@/components/IconButton/IconButton.tsx";
 import MingcuteEdit2Line from "@/icons/MingcuteEdit2Line.tsx";
 
 import ListItemModal from "@/modals/ListItemModal/ListItemModal.tsx";
+
+import { useModalStore } from "@/stores/modal-store.ts";
 
 import type { ListItemType } from "@/types/list-item.ts";
 
@@ -28,7 +30,7 @@ export default function ListItem({
   itemIndex,
   item,
 }: Props): ReactNode {
-  const modalRef = useRef<HTMLDialogElement>(null);
+  const showModal = useModalStore((state) => state.showModal);
 
   const {
     attributes,
@@ -48,7 +50,13 @@ export default function ListItem({
   const handleEditButtonClick = (e: MouseEvent<HTMLButtonElement>): void => {
     e.stopPropagation();
 
-    modalRef.current?.showModal();
+    showModal(() => (
+      <ListItemModal
+        listIndex={listIndex}
+        itemIndex={itemIndex}
+        defaultValues={item}
+      />
+    ));
   };
 
   return (
@@ -72,12 +80,6 @@ export default function ListItem({
           <MingcuteEdit2Line />
         </IconButton>
       </div>
-      <ListItemModal
-        modalRef={modalRef}
-        listIndex={listIndex}
-        itemIndex={itemIndex}
-        defaultValues={item}
-      />
     </>
   );
 }

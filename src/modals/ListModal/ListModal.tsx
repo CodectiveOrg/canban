@@ -1,4 +1,4 @@
-import { type ComponentProps, type ReactNode } from "react";
+import { type ReactNode } from "react";
 
 import { useParams } from "react-router";
 
@@ -15,20 +15,22 @@ import FormModal from "@/modals/FormModal/FormModal.tsx";
 import { ListSchema } from "@/schemas/list-schema.ts";
 
 import { useKanbanStore } from "@/stores/kanban-store.ts";
+import { useModalStore } from "@/stores/modal-store.ts";
 
 type Values = z.infer<typeof ListSchema>;
 
-type Props = Pick<ComponentProps<typeof FormModal>, "modalRef"> & {
+type Props = {
   listIndex?: number;
   defaultValues?: Values;
 };
 
 export default function ListModal({
-  modalRef,
   listIndex,
   defaultValues,
 }: Props): ReactNode {
   const { boardId } = useParams();
+
+  const closeModal = useModalStore((state) => state.closeModal);
 
   const createList = useKanbanStore((state) => state.createList);
   const editList = useKanbanStore((state) => state.editList);
@@ -52,7 +54,7 @@ export default function ListModal({
     removeList(boardId, listIndex);
     toast.success("List removed successfully.");
 
-    modalRef.current?.close();
+    closeModal();
   };
 
   const handleFormSubmit = (values: Values): void => {
@@ -64,12 +66,11 @@ export default function ListModal({
       toast.success("List created successfully.");
     }
 
-    modalRef.current?.close();
+    closeModal();
   };
 
   return (
     <FormModal
-      modalRef={modalRef}
       heading={
         listIndex !== undefined ? "Edit Existing List" : "Create a New List"
       }

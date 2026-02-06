@@ -1,4 +1,4 @@
-import { type ComponentProps, type ReactNode } from "react";
+import { type ReactNode } from "react";
 
 import { useNavigate } from "react-router";
 
@@ -17,19 +17,21 @@ import FormModal from "@/modals/FormModal/FormModal.tsx";
 import { BoardSchema } from "@/schemas/board-schema.ts";
 
 import { useKanbanStore } from "@/stores/kanban-store.ts";
+import { useModalStore } from "@/stores/modal-store.ts";
 
 type Values = z.infer<typeof BoardSchema>;
 
-type Props = Pick<ComponentProps<typeof FormModal>, "modalRef"> & {
+type Props = {
   boardId?: string;
   defaultValues?: Values;
 };
 
 export default function BoardModal({
-  modalRef,
   boardId,
   defaultValues,
 }: Props): ReactNode {
+  const closeModal = useModalStore((state) => state.closeModal);
+
   const createBoard = useKanbanStore((state) => state.createBoard);
   const editBoard = useKanbanStore((state) => state.editBoard);
   const removeBoard = useKanbanStore((state) => state.removeBoard);
@@ -55,7 +57,7 @@ export default function BoardModal({
     removeBoard(boardId);
     toast.success("Board removed successfully.");
 
-    modalRef.current?.close();
+    closeModal();
 
     navigate("/");
   };
@@ -69,12 +71,11 @@ export default function BoardModal({
       toast.success("Board created successfully.");
     }
 
-    modalRef.current?.close();
+    closeModal();
   };
 
   return (
     <FormModal
-      modalRef={modalRef}
       heading={
         boardId !== undefined ? "Edit Existing Board" : "Create a New Board"
       }

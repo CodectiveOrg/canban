@@ -1,4 +1,4 @@
-import { type ReactNode, useRef } from "react";
+import { type ReactNode } from "react";
 
 import BoardCard from "@/components/BoardCard/BoardCard.tsx";
 import Button from "@/components/Button/Button.tsx";
@@ -6,16 +6,17 @@ import Button from "@/components/Button/Button.tsx";
 import BoardModal from "@/modals/BoardModal/BoardModal.tsx";
 
 import { useKanbanStore } from "@/stores/kanban-store.ts";
+import { useModalStore } from "@/stores/modal-store.ts";
 
 import styles from "./HomePage.module.css";
 
 export default function HomePage(): ReactNode {
   const boards = useKanbanStore((state) => state.boards);
 
-  const modalRef = useRef<HTMLDialogElement>(null);
+  const showModal = useModalStore((state) => state.showModal);
 
   const handleCreateButtonClick = (): void => {
-    modalRef.current?.showModal();
+    showModal(() => <BoardModal />);
   };
 
   return (
@@ -33,7 +34,6 @@ export default function HomePage(): ReactNode {
           </li>
         ))}
       </ul>
-      <BoardModal modalRef={modalRef} />
     </div>
   );
 }
