@@ -33,11 +33,11 @@ export default function ListItemModal({
 }: Props): ReactNode {
   const { boardId } = useParams();
 
-  const closeModal = useModalStore((state) => state.closeModal);
-
   const createItem = useKanbanStore((state) => state.createItem);
   const editItem = useKanbanStore((state) => state.editItem);
   const removeItem = useKanbanStore((state) => state.removeItem);
+
+  const closeModal = useModalStore((state) => state.closeModal);
 
   const {
     register,

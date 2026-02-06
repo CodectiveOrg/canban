@@ -30,11 +30,11 @@ export default function BoardModal({
   boardId,
   defaultValues,
 }: Props): ReactNode {
-  const closeModal = useModalStore((state) => state.closeModal);
-
   const createBoard = useKanbanStore((state) => state.createBoard);
   const editBoard = useKanbanStore((state) => state.editBoard);
   const removeBoard = useKanbanStore((state) => state.removeBoard);
+
+  const closeModal = useModalStore((state) => state.closeModal);
 
   const navigate = useNavigate();
 
