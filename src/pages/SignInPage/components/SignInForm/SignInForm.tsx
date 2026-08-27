@@ -1,11 +1,17 @@
 import type { ReactNode } from "react";
 
+import { useNavigate } from "react-router";
+
+import { toast } from "react-toastify";
+
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 import Button from "@/components/Button/Button.tsx";
 import TextInput from "@/components/TextInput/TextInput.tsx";
+
+import type { ResponseDto } from "@/dto/response.dto.ts";
 
 import { SignInSchema } from "@/schemas/sign-in-schema.ts";
 
@@ -14,6 +20,8 @@ import styles from "./SignInForm.module.css";
 type Values = z.infer<typeof SignInSchema>;
 
 export default function SignInForm(): ReactNode {
+  const navigate = useNavigate();
+
   const {
     register,
     handleSubmit,
@@ -22,8 +30,30 @@ export default function SignInForm(): ReactNode {
     resolver: zodResolver(SignInSchema),
   });
 
-  const handleFormSubmit = (values: Values): void => {
-    console.log(values);
+  const handleFormSubmit = async (values: Values): Promise<void> => {
+    try {
+      const response = await fetch("https://api.canban.ir/auth/sign-in", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(values),
+        credentials: "include",
+      });
+
+      const data = (await response.json()) as ResponseDto;
+
+      if ("error" in data) {
+        toast.error(data.message);
+        return;
+      }
+
+      toast.success(data.message);
+      navigate("/");
+    } catch (error) {
+      console.error(error);
+      toast.error("Something went wrong! Please try again later.");
+    }
   };
 
   return (
