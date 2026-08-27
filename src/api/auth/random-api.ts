@@ -7,5 +7,5 @@ import { richFetch } from "@/utils/fetch.utils";
 type RandomUser = Pick<User, "username" | "password">;
 
 export async function randomApi(): Promise<ResponseDto<RandomUser>> {
-  return richFetch("/auth/random", { method: "POST" });
+  return richFetch<RandomUser>("/auth/random", { method: "POST" });
 }

@@ -5,3 +5,5 @@ export type User = {
   email: string | null;
   picture: string | null;
 };
+
+export type SafeUser = Omit<User, "password">;
