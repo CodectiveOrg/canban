@@ -9,7 +9,11 @@ import styles from "./SignInPage.module.css";
 export default function SignInPage(): ReactNode {
   return (
     <div className={styles["sign-in-page"]}>
-      <AuthCard>
+      <AuthCard
+        page="sign-in"
+        title="Welcome Back!"
+        subtitle="Enter your credentials to sign in."
+      >
         <SignInForm />
       </AuthCard>
     </div>
