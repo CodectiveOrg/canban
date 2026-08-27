@@ -1,4 +1,4 @@
-import type { ResponseDto } from "@/dto/response.dto.ts";
+import type { ResponseDto } from "@/dto/response-dto.ts";
 
 export async function richFetch<TResult = void>(
   url: string,

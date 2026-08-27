@@ -8,12 +8,12 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
+import { signInApi } from "@/api/auth/sign-in-api.ts";
+
 import Button from "@/components/Button/Button.tsx";
 import TextInput from "@/components/TextInput/TextInput.tsx";
 
 import { SignInSchema } from "@/schemas/sign-in-schema.ts";
-
-import { richFetch } from "@/utils/fetch.utils.ts";
 
 import styles from "./SignInForm.module.css";
 
@@ -31,10 +31,7 @@ export default function SignInForm(): ReactNode {
   });
 
   const handleFormSubmit = async (values: Values): Promise<void> => {
-    const data = await richFetch("/auth/sign-in", {
-      method: "POST",
-      body: JSON.stringify(values),
-    });
+    const data = await signInApi(values);
 
     if ("error" in data) {
       toast.error(data.message);

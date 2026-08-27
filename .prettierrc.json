@@ -18,6 +18,7 @@
     "^@/context",
     "^@/data",
     "^@/dto",
+    "^@/entities",
     "^@/hooks",
     "^@/icons",
     "^@/layouts",
