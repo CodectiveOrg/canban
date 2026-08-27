@@ -11,9 +11,9 @@ import { z } from "zod";
 import Button from "@/components/Button/Button.tsx";
 import TextInput from "@/components/TextInput/TextInput.tsx";
 
-import type { ResponseDto } from "@/dto/response.dto.ts";
-
 import { SignInSchema } from "@/schemas/sign-in-schema.ts";
+
+import { richFetch } from "@/utils/fetch.utils.ts";
 
 import styles from "./SignInForm.module.css";
 
@@ -31,29 +31,18 @@ export default function SignInForm(): ReactNode {
   });
 
   const handleFormSubmit = async (values: Values): Promise<void> => {
-    try {
-      const response = await fetch("https://api.canban.ir/auth/sign-in", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(values),
-        credentials: "include",
-      });
+    const data = await richFetch("/auth/sign-in", {
+      method: "POST",
+      body: JSON.stringify(values),
+    });
 
-      const data = (await response.json()) as ResponseDto;
-
-      if ("error" in data) {
-        toast.error(data.message);
-        return;
-      }
-
-      toast.success(data.message);
-      navigate("/");
-    } catch (error) {
-      console.error(error);
-      toast.error("Something went wrong! Please try again later.");
+    if ("error" in data) {
+      toast.error(data.message);
+      return;
     }
+
+    toast.success(data.message);
+    navigate("/");
   };
 
   return (
