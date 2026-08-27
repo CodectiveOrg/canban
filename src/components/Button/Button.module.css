@@ -1,6 +1,7 @@
 .button {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 1ch;
 
   padding: 0.5rem 1rem;
@@ -35,6 +36,13 @@
       --color: var(--color-primary-contrast);
 
       --background-color-hover: var(--color-primary-dark);
+    }
+
+    &.success {
+      --background-color: var(--color-success);
+      --color: var(--color-success-contrast);
+
+      --background-color-hover: var(--color-success-dark);
     }
 
     &.danger {
@@ -73,6 +81,14 @@
       --background-color-hover: var(--color-primary-fade);
     }
 
+    &.success {
+      --background-color: var(--color-surface-3);
+      --color: var(--color-success);
+      --border-color: var(--color-success);
+
+      --background-color-hover: var(--color-success-fade);
+    }
+
     &.danger {
       --background-color: var(--color-surface-3);
       --color: var(--color-danger);
@@ -102,6 +118,12 @@
       --color: var(--color-primary);
 
       --background-color-hover: var(--color-primary-fade);
+    }
+
+    &.success {
+      --color: var(--color-success);
+
+      --background-color-hover: var(--color-success-fade);
     }
 
     &.danger {

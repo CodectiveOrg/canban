@@ -1,0 +1,24 @@
+.auth-card {
+  background-color: var(--color-surface-2);
+  color: var(--color-text);
+  box-shadow: var(--shadow-2);
+
+  display: grid;
+  gap: 2rem;
+
+  inline-size: min(30rem, 100%);
+
+  margin: auto;
+  padding: 2rem;
+
+  border: none;
+  border-radius: var(--border-radius-2);
+
+  .heading {
+    text-align: center;
+
+    p {
+      color: var(--color-text-secondary);
+    }
+  }
+}

@@ -7,10 +7,9 @@ import clsx from "clsx";
 import IconButton from "@/components/IconButton/IconButton.tsx";
 import Logo from "@/components/Logo/Logo.tsx";
 import SidebarGroups from "@/components/Sidebar/components/SidebarGroups/SidebarGroups.tsx";
-import SidebarItem from "@/components/Sidebar/components/SidebarItem/SidebarItem.tsx";
+import SignOutButton from "@/components/Sidebar/components/SignOutButton/SignOutButton.tsx";
 
 import MingcuteArrowsRightLine from "@/icons/MingcuteArrowsRightLine.tsx";
-import MingcuteExitLine from "@/icons/MingcuteExitLine.tsx";
 
 import { useSidebarStore } from "@/stores/sidebar-store.ts";
 
@@ -34,12 +33,7 @@ export default function Sidebar(): ReactNode {
         <SidebarGroups />
       </nav>
       <div className={styles.footer}>
-        <SidebarItem
-          id="sign-out"
-          title="Sign Out"
-          color="gray"
-          icon={<MingcuteExitLine />}
-        />
+        <SignOutButton />
       </div>
     </aside>
   );

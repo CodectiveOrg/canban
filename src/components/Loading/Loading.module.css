@@ -1,0 +1,16 @@
+.loading {
+  background-color: var(--color-surface-0);
+  color: var(--color-text);
+
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+
+  display: grid;
+  place-content: center;
+
+  block-size: 100%;
+  inline-size: 100%;
+
+  text-align: center;
+}

@@ -6,7 +6,7 @@ import styles from "./Button.module.css";
 
 type Props = ComponentProps<"button"> & {
   variant?: "solid" | "outlined" | "text";
-  color?: "default" | "primary" | "danger";
+  color?: "default" | "primary" | "success" | "danger";
 };
 
 export default function Button({

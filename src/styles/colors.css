@@ -108,6 +108,14 @@
   --color-primary-dark: var(--color-sky-600);
   --color-primary-contrast: var(--color-white);
 
+  --color-success-fade: light-dark(
+    var(--color-emerald-50),
+    var(--color-emerald-950)
+  );
+  --color-success: var(--color-emerald-500);
+  --color-success-dark: var(--color-emerald-600);
+  --color-success-contrast: var(--color-white);
+
   --color-danger-fade: light-dark(var(--color-rose-50), var(--color-rose-950));
   --color-danger: var(--color-rose-500);
   --color-danger-dark: var(--color-rose-600);
