@@ -1,0 +1,26 @@
+.copy-box {
+  display: grid;
+
+  .box {
+    background-color: var(--color-surface-3);
+    color: var(--color-text);
+
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    gap: 0.5rem;
+
+    padding: 0.5rem;
+
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius-2);
+
+    button {
+      min-inline-size: 8ch;
+
+      > svg {
+        min-block-size: 1lh;
+      }
+    }
+  }
+}

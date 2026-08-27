@@ -1,6 +1,8 @@
 import type { ReactNode } from "react";
 
 import AuthCard from "@/components/AuthCard/AuthCard.tsx";
+import Divider from "@/components/Divider/Divider.tsx";
+import RandomButton from "@/components/RandomButton/RandomButton.tsx";
 
 import SignInForm from "@/pages/SignInPage/components/SignInForm/SignInForm.tsx";
 
@@ -14,6 +16,8 @@ export default function SignInPage(): ReactNode {
         title="Welcome Back!"
         subtitle="Enter your credentials to sign in."
       >
+        <RandomButton />
+        <Divider>or</Divider>
         <SignInForm />
       </AuthCard>
     </div>
