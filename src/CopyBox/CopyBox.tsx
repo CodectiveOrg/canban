@@ -30,7 +30,7 @@ export default function CopyBox({ label, value }: Props): ReactNode {
 
   return (
     <div className={styles["copy-box"]}>
-      <div className={styles.lable}>{label}</div>
+      <div className={styles.label}>{label}</div>
       <div className={styles.box}>
         <div className={styles.value}>{value}</div>
         <Button
