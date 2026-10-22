@@ -4,12 +4,14 @@ import type { ResponseDto } from "@/dto/response-dto";
 
 import type { ChangePasswordSchema } from "@/schemas/change-password-schema.ts";
 import type { IdentitySettingsSchema } from "@/schemas/identity-settings-schema.ts";
+import type { PictureSettingsSchema } from "@/schemas/picture-settings-schema.ts";
 
 import { richFetch } from "@/utils/fetch-utils.ts";
 
 type UpdateUserRequestDto =
   | z.infer<typeof IdentitySettingsSchema>
-  | z.infer<typeof ChangePasswordSchema>;
+  | z.infer<typeof ChangePasswordSchema>
+  | z.infer<typeof PictureSettingsSchema>;
 
 export async function updateUserApi(
   dto: UpdateUserRequestDto,

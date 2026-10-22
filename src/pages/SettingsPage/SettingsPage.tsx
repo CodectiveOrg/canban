@@ -13,6 +13,7 @@ import type { SafeUser } from "@/entities/user.ts";
 
 import ChangePasswordForm from "@/pages/SettingsPage/components/ChangePasswordForm/ChangePasswordForm.tsx";
 import IdentitySettingsForm from "@/pages/SettingsPage/components/IdentitySettingsForm/IdentitySettingsForm.tsx";
+import PictureSettingsForm from "@/pages/SettingsPage/components/PictureSettingsForm/PictureSettingsForm.tsx";
 
 import styles from "./SettingsPage.module.css";
 
@@ -46,7 +47,12 @@ export default function SettingsPage(): ReactNode {
   return (
     <div className={styles["settings-page"]}>
       <section>
-        <h2>Identity Settings</h2>
+        <h2>User Settings</h2>
+        <PictureSettingsForm
+          savedPicture={response.result.picture}
+          username={response.result.username}
+          onSubmit={reloadResponse}
+        />
         <IdentitySettingsForm
           defaultValues={{
             username: response.result.username,
