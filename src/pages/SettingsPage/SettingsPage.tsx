@@ -1,15 +1,11 @@
-import { type ReactNode, useEffect, useState } from "react";
+import { type ReactNode } from "react";
 
 import { toast } from "react-toastify";
-
-import { getUserApi } from "@/api/user/get-user-api.ts";
 
 import ApiError from "@/components/ApiError/ApiError.tsx";
 import Loading from "@/components/Loading/Loading.tsx";
 
-import type { ResponseDto } from "@/dto/response-dto.ts";
-
-import type { SafeUser } from "@/entities/user.ts";
+import { useUser } from "@/hooks/useUser.ts";
 
 import ChangePasswordForm from "@/pages/SettingsPage/components/ChangePasswordForm/ChangePasswordForm.tsx";
 import IdentitySettingsForm from "@/pages/SettingsPage/components/IdentitySettingsForm/IdentitySettingsForm.tsx";
@@ -18,31 +14,20 @@ import PictureSettingsForm from "@/pages/SettingsPage/components/PictureSettings
 import styles from "./SettingsPage.module.css";
 
 export default function SettingsPage(): ReactNode {
-  const [response, setResponse] = useState<ResponseDto<SafeUser> | null>(null);
+  const { response, isLoading, isError, error } = useUser();
 
-  useEffect(() => {
-    getUserApi().then((response) => {
-      setResponse(response);
-    });
-  }, []);
-
-  if (response === null) {
+  if (isLoading) {
+    console.log(error);
     return <Loading />;
   }
 
-  if ("error" in response) {
-    toast.error(response.message, { toastId: "get-user-api-error" });
-    return <ApiError error={response.error} message={response.message} />;
+  if (isError) {
+    toast.error(error.message, { toastId: "get-user-api-error" });
+    return <ApiError error={error.error} message={error.message} />;
   }
 
-  const reloadResponse = async (): Promise<void> => {
-    const updatedResponse = await getUserApi();
-    if ("error" in updatedResponse) {
-      toast.error(updatedResponse.message);
-    } else {
-      setResponse(updatedResponse);
-      window.dispatchEvent(new Event("userupdate"));
-    }
+  const reload = (): void => {
+    window.dispatchEvent(new Event("userupdate"));
   };
 
   return (
@@ -52,19 +37,19 @@ export default function SettingsPage(): ReactNode {
         <PictureSettingsForm
           savedPicture={response.result.picture}
           username={response.result.username}
-          onSubmit={reloadResponse}
+          onSubmit={reload}
         />
         <IdentitySettingsForm
           defaultValues={{
             username: response.result.username,
             email: response.result.email ?? "",
           }}
-          onSubmit={reloadResponse}
+          onSubmit={reload}
         />
       </section>
       <section>
         <h2>Change Password</h2>
-        <ChangePasswordForm onSubmit={reloadResponse} />
+        <ChangePasswordForm onSubmit={reload} />
       </section>
     </div>
   );

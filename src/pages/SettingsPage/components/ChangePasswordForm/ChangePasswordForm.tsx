@@ -18,7 +18,7 @@ import styles from "./ChangePasswordForm.module.css";
 type Values = z.infer<typeof ChangePasswordSchema>;
 
 type Props = {
-  onSubmit?: () => Promise<void>;
+  onSubmit?: () => void;
 };
 
 export default function ChangePasswordForm({ onSubmit }: Props): ReactNode {
@@ -39,7 +39,7 @@ export default function ChangePasswordForm({ onSubmit }: Props): ReactNode {
     }
 
     toast.success(data.message);
-    await onSubmit?.();
+    onSubmit?.();
   };
 
   return (

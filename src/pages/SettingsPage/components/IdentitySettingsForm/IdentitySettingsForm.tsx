@@ -19,7 +19,7 @@ type Values = z.infer<typeof IdentitySettingsSchema>;
 
 type Props = {
   defaultValues: Values;
-  onSubmit?: () => Promise<void>;
+  onSubmit?: () => void;
 };
 
 export default function IdentitySettingsForm({
@@ -44,7 +44,7 @@ export default function IdentitySettingsForm({
     }
 
     toast.success(data.message);
-    await onSubmit?.();
+    onSubmit?.();
   };
 
   return (
