@@ -1,0 +1,14 @@
+.identity-settings-form {
+  display: grid;
+  gap: 1rem;
+
+  .inputs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+
+  button {
+    inline-size: fit-content;
+  }
+}
