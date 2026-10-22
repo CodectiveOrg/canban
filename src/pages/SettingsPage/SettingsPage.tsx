@@ -41,6 +41,7 @@ export default function SettingsPage(): ReactNode {
       toast.error(updatedResponse.message);
     } else {
       setResponse(updatedResponse);
+      window.dispatchEvent(new Event("userupdate"));
     }
   };
 

@@ -17,9 +17,18 @@ export default function UserBadge(): ReactNode {
   const [response, setResponse] = useState<ResponseDto<SafeUser> | null>(null);
 
   useEffect(() => {
-    getUserApi().then((response) => {
-      setResponse(response);
-    });
+    const loadUser = (): void => {
+      getUserApi().then((response) => {
+        setResponse(response);
+      });
+    };
+
+    window.addEventListener("userupdate", loadUser);
+    loadUser();
+
+    return () => {
+      window.removeEventListener("userupdate", loadUser);
+    };
   }, []);
 
   if (response === null) {
