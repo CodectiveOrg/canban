@@ -1,15 +1,22 @@
 .settings-page {
-  background-color: var(--color-surface-2);
-  color: var(--color-text);
-  box-shadow: var(--shadow-2);
-
   display: grid;
   gap: 2rem;
 
-  inline-size: min(40rem, 100%);
+  inline-size: min(50rem, 100%);
 
   margin: auto;
-  padding: 2rem;
 
-  border-radius: var(--border-radius-2);
+  section {
+    background-color: var(--color-surface-2);
+    color: var(--color-text);
+    box-shadow: var(--shadow-2);
+
+    padding: 2rem;
+
+    border-radius: var(--border-radius-2);
+
+    h2 {
+      margin-block-end: 1rem;
+    }
+  }
 }

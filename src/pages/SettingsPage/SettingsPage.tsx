@@ -11,6 +11,7 @@ import type { ResponseDto } from "@/dto/response-dto.ts";
 
 import type { SafeUser } from "@/entities/user.ts";
 
+import ChangePasswordForm from "@/pages/SettingsPage/components/ChangePasswordForm/ChangePasswordForm.tsx";
 import IdentitySettingsForm from "@/pages/SettingsPage/components/IdentitySettingsForm/IdentitySettingsForm.tsx";
 
 import styles from "./SettingsPage.module.css";
@@ -32,15 +33,32 @@ export default function SettingsPage(): ReactNode {
     toast.error(response.message, { toastId: "get-user-api-error" });
     return <ApiError error={response.error} message={response.message} />;
   }
+
+  const reloadResponse = async (): Promise<void> => {
+    const updatedResponse = await getUserApi();
+    if ("error" in updatedResponse) {
+      toast.error(updatedResponse.message);
+    } else {
+      setResponse(updatedResponse);
+    }
+  };
+
   return (
     <div className={styles["settings-page"]}>
-      <h1>Account Settings</h1>
-      <IdentitySettingsForm
-        defaultValues={{
-          username: response.result.username,
-          email: response.result.email ?? "",
-        }}
-      />
+      <section>
+        <h2>Identity Settings</h2>
+        <IdentitySettingsForm
+          defaultValues={{
+            username: response.result.username,
+            email: response.result.email ?? "",
+          }}
+          onSubmit={reloadResponse}
+        />
+      </section>
+      <section>
+        <h2>Change Password</h2>
+        <ChangePasswordForm onSubmit={reloadResponse} />
+      </section>
     </div>
   );
 }

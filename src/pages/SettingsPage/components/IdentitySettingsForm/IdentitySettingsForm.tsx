@@ -19,10 +19,12 @@ type Values = z.infer<typeof IdentitySettingsSchema>;
 
 type Props = {
   defaultValues: Values;
+  onSubmit?: () => Promise<void>;
 };
 
 export default function IdentitySettingsForm({
   defaultValues,
+  onSubmit,
 }: Props): ReactNode {
   const {
     register,
@@ -42,6 +44,7 @@ export default function IdentitySettingsForm({
     }
 
     toast.success(data.message);
+    await onSubmit?.();
   };
 
   return (
@@ -54,12 +57,14 @@ export default function IdentitySettingsForm({
           {...register("username")}
           label="Username"
           type="text"
+          autoComplete="username"
           error={errors.username?.message}
         />
         <TextInput
           {...register("email")}
           label="Email"
           type="email"
+          autoComplete="email"
           error={errors.email?.message}
         />
       </div>
