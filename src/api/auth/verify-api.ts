@@ -1,9 +1,7 @@
 import type { ResponseDto } from "@/dto/response-dto";
 
-import type { SafeUser } from "@/entities/user.ts";
-
 import { richFetch } from "@/utils/fetch-utils.ts";
 
-export async function verifyApi(): Promise<ResponseDto<SafeUser>> {
-  return richFetch<SafeUser>("/auth/verify");
+export async function verifyApi(): Promise<ResponseDto> {
+  return richFetch("/auth/verify");
 }

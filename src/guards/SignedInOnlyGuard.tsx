@@ -11,10 +11,8 @@ import Loading from "@/components/Loading/Loading.tsx";
 
 import type { ResponseDto } from "@/dto/response-dto.ts";
 
-import type { SafeUser } from "@/entities/user.ts";
-
 export default function SignedInOnlyGuard(): ReactNode {
-  const [response, setResponse] = useState<ResponseDto<SafeUser> | null>(null);
+  const [response, setResponse] = useState<ResponseDto | null>(null);
 
   useEffect(() => {
     verifyApi().then((response) => {
