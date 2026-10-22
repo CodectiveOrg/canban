@@ -13,6 +13,7 @@ import styles from "./SidebarItem.module.css";
 type Props = {
   id: string;
   href?: string;
+  ignoreActiveState?: boolean;
   title: ReactNode;
   color: BoardColor;
   icon: ReactNode;
@@ -21,6 +22,7 @@ type Props = {
 
 export default function SidebarItem({
   href,
+  ignoreActiveState = false,
   title,
   color,
   icon,
@@ -52,7 +54,9 @@ export default function SidebarItem({
   return (
     <NavLink
       to={href}
-      className={({ isActive }) => clsx(className, isActive && styles.active)}
+      className={({ isActive }) =>
+        clsx(className, isActive && !ignoreActiveState && styles.active)
+      }
     >
       {children}
     </NavLink>
