@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-import type { ResponseDto } from "@/dto/response-dto";
+import type { ResponseDto } from "@/dto/response-dto.ts";
 
 import type { ChangePasswordSchema } from "@/schemas/change-password-schema.ts";
 import type { IdentitySettingsSchema } from "@/schemas/identity-settings-schema.ts";

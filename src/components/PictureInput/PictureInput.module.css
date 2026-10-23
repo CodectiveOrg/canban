@@ -31,7 +31,7 @@
       .hint {
         color: var(--color-text-secondary);
 
-        font: var(--fz-300);
+        font-size: var(--fz-300);
       }
     }
 

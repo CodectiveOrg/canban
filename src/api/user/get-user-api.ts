@@ -1,4 +1,4 @@
-import type { ResponseDto } from "@/dto/response-dto";
+import type { ResponseDto } from "@/dto/response-dto.ts";
 
 import type { SafeUser } from "@/entities/user.ts";
 

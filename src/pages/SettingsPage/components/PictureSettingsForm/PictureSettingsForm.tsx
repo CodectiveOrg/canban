@@ -20,14 +20,13 @@ export default function PictureSettingsForm({
   onSubmit,
 }: Props): ReactNode {
   const updatePicture = async (picture: File | ""): Promise<void> => {
-    const data = await updateUserApi({ picture });
-
-    if ("error" in data) {
-      toast.error(data.message);
+    const response = await updateUserApi({ picture });
+    if ("error" in response) {
+      toast.error(response.message);
       return;
     }
 
-    toast.success(data.message);
+    toast.success(response.message);
     onSubmit?.();
   };
 

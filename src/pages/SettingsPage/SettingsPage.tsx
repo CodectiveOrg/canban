@@ -17,7 +17,6 @@ export default function SettingsPage(): ReactNode {
   const { response, isLoading, isError, error } = useUser();
 
   if (isLoading) {
-    console.log(error);
     return <Loading />;
   }
 
