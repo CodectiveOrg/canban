@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 
-import CopyBox from "@/CopyBox/CopyBox.tsx";
+import CopyBox from "@/components/CopyBox/CopyBox.tsx";
 
 import styles from "./RandomCredentials.module.css";
 

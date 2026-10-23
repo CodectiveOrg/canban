@@ -10,18 +10,25 @@ type Props = {
   className?: string;
   title: string;
   color: BoardColor;
+  size?: number;
 };
 
 export default function Initials({
   className,
   title,
   color,
+  size,
 }: Props): ReactNode {
   const parts = title.trim().split(/\s+/);
-  const initials = `${parts[0][0]}${parts.at(-1)?.[0] ?? ""}`;
+  const firstLetter = parts[0][0];
+  const secondLetter = parts.length > 1 ? (parts.at(-1)?.[0] ?? "") : "";
+  const initials = `${firstLetter}${secondLetter}`;
 
   return (
-    <div className={clsx(styles.initials, color, className)}>
+    <div
+      className={clsx(styles.initials, color, className)}
+      style={{ fontSize: `${size}px` }}
+    >
       <div className={styles.text}>{initials}</div>
     </div>
   );

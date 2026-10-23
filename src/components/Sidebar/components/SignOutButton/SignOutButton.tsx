@@ -29,7 +29,7 @@ export default function SignOutButton(): ReactNode {
     <SidebarItem
       id="sign-out"
       title="Sign Out"
-      color="gray"
+      color="red"
       icon={<MingcuteExitLine />}
       onClick={handleSignOutButtonClick}
     />

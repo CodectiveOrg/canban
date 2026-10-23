@@ -43,6 +43,11 @@
     gap: 2rem;
   }
 
+  .footer {
+    display: grid;
+    gap: 0.5rem;
+  }
+
   &.collapsed {
     inline-size: auto;
 

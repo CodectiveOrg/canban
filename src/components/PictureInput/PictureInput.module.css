@@ -1,0 +1,53 @@
+.picture-input {
+  .input-box {
+    background-color: var(--color-surface-3);
+    color: var(--color-text);
+
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 1rem;
+
+    padding: 0.5rem;
+
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius-2);
+
+    input {
+      display: none;
+    }
+
+    .text {
+      display: grid;
+      align-items: center;
+
+      label {
+        font-size: var(--fz-500);
+        font-weight: 700;
+
+        cursor: pointer;
+      }
+
+      .hint {
+        color: var(--color-text-secondary);
+
+        font-size: var(--fz-300);
+      }
+    }
+
+    .actions {
+      display: flex;
+      gap: 0.5rem;
+    }
+  }
+
+  .error {
+    color: var(--color-danger);
+  }
+
+  &.error {
+    input {
+      border-color: var(--color-danger);
+    }
+  }
+}

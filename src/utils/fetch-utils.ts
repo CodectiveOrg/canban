@@ -22,12 +22,15 @@ function prepareUrl(url: string): string {
 }
 
 function prepareInit(init?: RequestInit): RequestInit {
+  const headers = new Headers(init?.headers);
+
+  if (!(init?.body instanceof FormData)) {
+    headers.set("Content-Type", "application/json");
+  }
+
   return {
     credentials: "include",
     ...init,
-    headers: {
-      "Content-Type": "application/json",
-      ...init?.headers,
-    },
+    headers,
   };
 }

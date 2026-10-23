@@ -19,8 +19,6 @@ export default tseslint.config([
       ecmaVersion: 2020,
       globals: globals.browser,
     },
-  },
-  {
     rules: {
       "@typescript-eslint/explicit-function-return-type": [
         "error",
